@@ -15,7 +15,9 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GolfBallDeliveryActivity extends Activity {
+import edu.rosehulman.me435.RobotActivity;
+
+public class GolfBallDeliveryActivity extends RobotActivity{
 
 	/** Constant used with logging that you'll see later. */
 	public static final String TAG = "GolfBallDelivery";

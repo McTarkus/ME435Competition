@@ -182,10 +182,10 @@ public class GolfBallDeliveryActivity extends RobotActivity{
     // --------------------------- Methods added ---------------------------
 
 
-	
-	
-	
-	
+
+
+
+
 	// --------------------------- Drive command ---------------------------
 	
 	

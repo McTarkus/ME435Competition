@@ -1,0 +1,303 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#444"
+    android:padding="5dp"
+    tools:context=".GolfBallDeliveryActivity">
+
+    <Button
+        android:id="@+id/team_change_button"
+        style="@style/ColorButton"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/blue_button"
+        android:onClick="handleTeamChange"
+        android:text="Team Blue" />
+
+    <Button
+        android:id="@+id/perform_ball_test_button"
+        style="@style/ColorButton"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/team_change_button"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/black_button"
+        android:onClick="handlePerformBallTest"
+        android:text="Ball Test" />
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/perform_ball_test_button"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:background="#0444"
+        android:onClick="handleDrivingStraight"
+        android:scaleType="fitCenter"
+        android:src="@drawable/driving_straight" />
+
+    <LinearLayout
+        android:id="@+id/golf_ball_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/team_change_button"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/location_1_image_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="#0444"
+            android:onClick="handleBallAtLocation1Click"
+            android:scaleType="fitCenter"
+            android:src="@drawable/none_ball" />
+
+        <ImageButton
+            android:id="@+id/location_2_image_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="#0444"
+            android:onClick="handleBallAtLocation2Click"
+            android:scaleType="fitCenter"
+            android:src="@drawable/none_ball" />
+
+        <ImageButton
+            android:id="@+id/location_3_image_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="#0444"
+            android:onClick="handleBallAtLocation3Click"
+            android:scaleType="fitCenter"
+            android:src="@drawable/none_ball" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/go_or_mission_complete_button"
+        style="@style/ColorButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/green_button"
+        android:onClick="handleGoOrMissionComplete"
+        android:text="Go!"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/state_label"
+        style="@style/DisplayText"
+        android:layout_below="@id/golf_ball_buttons"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Current state:" />
+
+    <TextView
+        android:id="@+id/current_state_textview"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/state_label"
+        android:layout_toRightOf="@id/state_label"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/state_time_label"
+        style="@style/DisplayText"
+        android:layout_below="@+id/state_label"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="State time:" />
+
+    <TextView
+        android:id="@+id/state_time_textview"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/state_time_label"
+        android:layout_toRightOf="@id/state_label"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/gps_label"
+        style="@style/DisplayText"
+        android:layout_below="@+id/state_time_label"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="GPS info:" />
+
+    <TextView
+        android:id="@+id/gps_info_textview"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/gps_label"
+        android:layout_toRightOf="@id/state_label"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/orientation_label"
+        style="@style/DisplayText"
+        android:layout_below="@+id/gps_label"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Orientation:" />
+
+    <TextView
+        android:id="@+id/orientation_textview"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/orientation_label"
+        android:layout_toRightOf="@id/state_label"
+        android:text="---" />
+
+    <TableLayout
+        android:id="@+id/fake_gps_button_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/orientation_label"
+        android:layout_marginTop="10dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsF0"
+                android:text="GPS F0" />
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsF1"
+                android:text="GPS F1" />
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsF2"
+                android:text="GPS F2" />
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsF3"
+                android:text="GPS F3" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsH0"
+                android:text="GPS H0" />
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsH1"
+                android:text="GPS H1" />
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsH2"
+                android:text="GPS H2" />
+
+            <Button
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/black_button"
+                android:onClick="handleFakeGpsH3"
+                android:text="GPS H3" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/set_sensor_button_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fake_gps_button_table">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/set_origin_button"
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/yellow_button"
+                android:onClick="handleSetOrigin"
+                android:text="Set Origin" />
+
+            <Button
+                android:id="@+id/set_x_axis_button"
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/yellow_button"
+                android:onClick="handleSetXAxis"
+                android:text="Set X" />
+
+            <Button
+                android:id="@+id/reset_heading_button"
+                style="@style/ColorButton.HorzLinearLayout"
+                android:background="@drawable/purple_button"
+                android:onClick="handleZeroHeading"
+                android:text="Zero heading" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/guess_location_label"
+        style="@style/DisplayText"
+        android:layout_below="@+id/set_sensor_button_table"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Guess XY:" />
+
+    <TextView
+        android:id="@+id/guess_location_textview"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/guess_location_label"
+        android:layout_toRightOf="@id/state_label"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/right_duty_cycle_textview"
+        style="@style/DisplayText"
+        android:layout_above="@+id/go_or_mission_complete_button"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:gravity="right"
+        android:text="Right\n0"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/left_duty_cycle_textview"
+        style="@style/DisplayText"
+        android:layout_above="@+id/go_or_mission_complete_button"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:text="Left\n0"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/match_time_textview"
+        style="@style/DisplayText"
+        android:layout_above="@+id/go_or_mission_complete_button"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="5:00"
+        android:textSize="22sp" />
+
+</RelativeLayout>

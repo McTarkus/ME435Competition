@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\palad\\Documents\\GitHub\\ME435Competition\\GolfBallDeliveryGPSOnly\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-normal-v4\\values-normal-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\palad\\Documents\\GitHub\\ME435Competition\\GolfBallDeliveryGPSOnly\\app\\src\\main\\res\\values-normal\\styles.xml",
+                    "from": {
+                        "startLines": "2,11,22,34,27,15",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "19,352,834,1314,1023,517",
+                        "endLines": "8,13,25,37,32,20",
+                        "endColumns": "12,12,12,12,12,12",
+                        "endOffsets": "311,509,1015,1485,1306,826"
+                    },
+                    "to": {
+                        "startLines": "2,9,12,16,20,26",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,346,506,689,862,1145",
+                        "endLines": "8,11,15,19,25,31",
+                        "endColumns": "12,12,12,12,12,12",
+                        "endOffsets": "341,501,684,857,1140,1449"
+                    }
+                }
+            ]
+        }
+    ]
+}

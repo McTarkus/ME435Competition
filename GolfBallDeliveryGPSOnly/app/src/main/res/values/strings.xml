@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Golf Ball Delivery</string>
+
+    <string-array name="ball_colors">
+        <item >None</item>
+        <item >Blue</item>
+        <item >Red</item>
+        <item >Yellow</item>
+        <item >Green</item>
+        <item >Black</item>
+        <item >White</item>
+    </string-array>
+
+    <string name="joint_angle_command">JOINT %1$d ANGLE %2$d</string>
+    <string name="position_command">POSITION %1$d %2$d %3$d %4$d %5$d</string>
+    <string name="gripper_command">GRIPPER %1$d</string>
+
+    <string name="wheel_speed_command">WHEEL SPEED %1$s %2$d %3$s %4$d</string>
+    <string name="battery_voltage_request">BATTERY VOLTAGE REQUEST</string>
+    <string name="wheel_current_request">WHEEL CURRENT REQUEST</string>
+
+    <string name="degrees_format">%1$.0fº</string>
+    <string name="xy_format">(%1$.0f,%2$.0f)</string>
+    <string name="time_format">%1$d:%2$02d</string>
+</resources>

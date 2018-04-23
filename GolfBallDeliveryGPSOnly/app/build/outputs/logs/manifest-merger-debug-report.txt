@@ -1,0 +1,144 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:2:1-35:12
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\4fe580606714f9884b801e7e794e778a\AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\e82e9224d02ec59485a188f8a71fd5c6\AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\71ef50c27ec411fda2b7816c5c206b71\AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\2e1695f90a2ca35c00352c08659b36b3\AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\fdcc99f9fdc9acacf62fe0e6979e600c\AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\01473f039c540463521e7c9af0e3c099\AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\b4d05a5abc2af32e2d09e1a36f7f849d\AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\2e6d5c6d95008933cc5dbb914800ab25\AndroidManifest.xml:17:1-31:12
+INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:2:1-35:12
+	package
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:3:5-46
+		INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:2:11-69
+uses-sdk
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:5:5-43
+INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:5:5-43
+INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\4fe580606714f9884b801e7e794e778a\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\4fe580606714f9884b801e7e794e778a\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\e82e9224d02ec59485a188f8a71fd5c6\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\e82e9224d02ec59485a188f8a71fd5c6\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\71ef50c27ec411fda2b7816c5c206b71\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\71ef50c27ec411fda2b7816c5c206b71\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\2e1695f90a2ca35c00352c08659b36b3\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\2e1695f90a2ca35c00352c08659b36b3\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\fdcc99f9fdc9acacf62fe0e6979e600c\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\fdcc99f9fdc9acacf62fe0e6979e600c\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\01473f039c540463521e7c9af0e3c099\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\01473f039c540463521e7c9af0e3c099\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\b4d05a5abc2af32e2d09e1a36f7f849d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\b4d05a5abc2af32e2d09e1a36f7f849d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\2e6d5c6d95008933cc5dbb914800ab25\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\2e6d5c6d95008933cc5dbb914800ab25\AndroidManifest.xml:21:5-23:58
+INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:5:5-43
+INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:5:5-43
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:5:5-43
+		INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:5:15-41
+		INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml
+uses-feature#android.hardware.usb.UsbAccessory
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:7:5-9:35
+	android:required
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:9:9-32
+	android:name
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:8:9-57
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:11:22-76
+application
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:13:5-33:19
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\4fe580606714f9884b801e7e794e778a\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\4fe580606714f9884b801e7e794e778a\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\e82e9224d02ec59485a188f8a71fd5c6\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\e82e9224d02ec59485a188f8a71fd5c6\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\71ef50c27ec411fda2b7816c5c206b71\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\71ef50c27ec411fda2b7816c5c206b71\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\2e1695f90a2ca35c00352c08659b36b3\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\2e1695f90a2ca35c00352c08659b36b3\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\fdcc99f9fdc9acacf62fe0e6979e600c\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\fdcc99f9fdc9acacf62fe0e6979e600c\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\01473f039c540463521e7c9af0e3c099\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\01473f039c540463521e7c9af0e3c099\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\b4d05a5abc2af32e2d09e1a36f7f849d\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\b4d05a5abc2af32e2d09e1a36f7f849d\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\2e6d5c6d95008933cc5dbb914800ab25\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\2e6d5c6d95008933cc5dbb914800ab25\AndroidManifest.xml:29:5-20
+	android:label
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:16:9-41
+	android:icon
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:15:9-43
+	android:allowBackup
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:14:9-35
+	android:theme
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:17:9-40
+activity#edu.rosehulman.golfballdelivery.GolfBallDeliveryActivity
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:18:9-32:20
+	android:screenOrientation
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:21:13-49
+	android:label
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:20:13-45
+	android:name
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:19:13-53
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:22:13-25:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:23:17-69
+	android:name
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:23:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:24:17-77
+	android:name
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:24:27-74
+intent-filter#action:name:android.hardware.usb.action.USB_ACCESSORY_ATTACHED
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:26:13-28:29
+action#android.hardware.usb.action.USB_ACCESSORY_ATTACHED
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:27:17-93
+	android:name
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:27:25-90
+meta-data#android.hardware.usb.action.USB_ACCESSORY_ATTACHED
+ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:29:13-31:64
+	android:resource
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:31:17-61
+	android:name
+		ADDED from C:\Users\palad\Documents\GitHub\ME435Competition\GolfBallDeliveryGPSOnly\app\src\main\AndroidManifest.xml:30:17-82
+meta-data#android.support.VERSION
+ADDED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\4fe580606714f9884b801e7e794e778a\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-alpha1.aar\4fe580606714f9884b801e7e794e778a\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\e82e9224d02ec59485a188f8a71fd5c6\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-alpha1.aar\e82e9224d02ec59485a188f8a71fd5c6\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\71ef50c27ec411fda2b7816c5c206b71\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-alpha1.aar\71ef50c27ec411fda2b7816c5c206b71\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\2e1695f90a2ca35c00352c08659b36b3\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-alpha1.aar\2e1695f90a2ca35c00352c08659b36b3\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\fdcc99f9fdc9acacf62fe0e6979e600c\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-alpha1.aar\fdcc99f9fdc9acacf62fe0e6979e600c\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\01473f039c540463521e7c9af0e3c099\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-alpha1.aar\01473f039c540463521e7c9af0e3c099\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\b4d05a5abc2af32e2d09e1a36f7f849d\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-alpha1.aar\b4d05a5abc2af32e2d09e1a36f7f849d\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\2e6d5c6d95008933cc5dbb914800ab25\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-alpha1.aar\2e6d5c6d95008933cc5dbb914800ab25\AndroidManifest.xml:25:5-27:41
+	android:value
+		ADDED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:27:9-38
+	android:name
+		ADDED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\palad\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-alpha1.aar\e352790b9497855a3435d70d70fad79b\AndroidManifest.xml:26:9-47

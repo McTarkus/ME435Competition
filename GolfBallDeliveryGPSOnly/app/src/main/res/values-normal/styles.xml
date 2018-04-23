@@ -1,0 +1,40 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="DisplayText" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#DDD</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ColorButton" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#DDD</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ColorButton.HorzLinearLayout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="ColorButton.AbsoluteSizeButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+</resources>

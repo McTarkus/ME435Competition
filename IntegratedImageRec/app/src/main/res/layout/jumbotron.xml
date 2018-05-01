@@ -3,4 +3,23 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/jumbo_x"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GPS X"
+        android:height="0dp"
+        android:layout_weight="1"
+        android:textSize="96sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/jumbo_y"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GPS Y"
+        android:height="0dp"
+        android:layout_weight="1"
+        android:textSize="96sp"
+        android:gravity="center"/>
 </LinearLayout>

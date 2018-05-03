@@ -1,10 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/color_blob_detection_activity_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
 
     <TextView
+        android:id="@+id/left_right_location_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This page will have a camera and some sliders."
-        />
+        android:layout_below="@id/color_blob_detection_activity_surface_view"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:text="Left/Right Location" />
+
+    <TextView
+        android:id="@+id/left_right_location_value"
+        android:layout_alignBaseline="@id/left_right_location_label"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/top_bottom_location_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/left_right_location_label"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:text="Top/Bottom Location" />
+
+    <TextView
+        android:id="@+id/top_bottom_location_value"
+        android:layout_alignBaseline="@id/top_bottom_location_label"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/size_percentage_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_bottom_location_label"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:text="Size Percentage" />
+
+    <TextView
+        android:id="@+id/size_percentage_value"
+        android:layout_alignBaseline="@id/size_percentage_label"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="---" />
+
+
 </RelativeLayout>

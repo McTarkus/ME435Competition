@@ -24,6 +24,20 @@ import org.opencv.imgproc.Moments;
 
 import java.util.List;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public class ConeFinderActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2 {
     public static final String TAG = "ConeFinder";
     /**

@@ -17,4 +17,28 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="DisplayText" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#DDD</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ColorButton" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#DDD</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ColorButton.HorzLinearLayout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="ColorButton.AbsoluteSizeButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
 </resources>

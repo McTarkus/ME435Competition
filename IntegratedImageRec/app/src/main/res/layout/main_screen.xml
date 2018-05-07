@@ -32,11 +32,11 @@
 
     <ImageButton
         android:id="@+id/imageButton1"
-        android:layout_width="128dp"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/perform_ball_test_button"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:adjustViewBounds="true"
         android:background="#0444"
         android:onClick="handleDrivingStraight"
@@ -90,12 +90,13 @@
         android:id="@+id/go_or_mission_complete_button"
         style="@style/ColorButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/green_button"
         android:onClick="handleGoOrMissionComplete"
         android:text="Go!"
-        android:textSize="24sp" />
+        android:textAlignment="center"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/state_label"
@@ -103,7 +104,7 @@
         android:layout_below="@id/golf_ball_buttons"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="Current state:" />
 
     <TextView
@@ -118,7 +119,7 @@
         style="@style/DisplayText"
         android:layout_below="@+id/state_label"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="State time:" />
 
     <TextView
@@ -133,7 +134,7 @@
         style="@style/DisplayText"
         android:layout_below="@+id/state_time_label"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="GPS info:" />
 
     <TextView
@@ -148,7 +149,7 @@
         style="@style/DisplayText"
         android:layout_below="@+id/gps_label"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="Orientation:" />
 
     <TextView
@@ -163,35 +164,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/orientation_label"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsF0"
-                android:text="GPS F0" />
+                android:text="GPS F0"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsF1"
-                android:text="GPS F1" />
+
+                android:text="GPS F1"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsF2"
-                android:text="GPS F2" />
+
+                android:text="GPS F2"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsF3"
-                android:text="GPS F3" />
+
+                android:text="GPS F3"
+                android:textColor="@android:color/white"
+
+                android:textSize="13dp" />
         </TableRow>
 
         <TableRow
@@ -199,28 +212,40 @@
             android:layout_height="wrap_content">
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsH0"
-                android:text="GPS H0" />
+                android:text="GPS H0"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsH1"
-                android:text="GPS H1" />
+                android:text="GPS H1"
+
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsH2"
-                android:text="GPS H2" />
+                android:text="GPS H2"
+                android:textColor="@android:color/white"
+
+                android:textSize="13dp" />
+
 
             <Button
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_weight="1"
                 android:background="@drawable/black_button"
                 android:onClick="handleFakeGpsH3"
-                android:text="GPS H3" />
+                android:text="GPS H3"
+
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
         </TableRow>
     </TableLayout>
 
@@ -236,24 +261,43 @@
 
             <Button
                 android:id="@+id/set_origin_button"
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:height="50dp"
                 android:background="@drawable/yellow_button"
                 android:onClick="handleSetOrigin"
-                android:text="Set Origin" />
+                android:text="Set Origin"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
             <Button
                 android:id="@+id/set_x_axis_button"
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+
+                android:height="50dp"
                 android:background="@drawable/yellow_button"
                 android:onClick="handleSetXAxis"
-                android:text="Set X" />
+                android:text="Set X"
+                android:textColor="@android:color/white"
+
+                android:textSize="13dp" />
 
             <Button
                 android:id="@+id/reset_heading_button"
-                style="@style/ColorButton.HorzLinearLayout"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:height="50dp"
+
                 android:background="@drawable/purple_button"
+
                 android:onClick="handleZeroHeading"
-                android:text="Zero heading" />
+                android:text="Zero heading"
+
+                android:textColor="@android:color/white"
+
+                android:textSize="13dp" />
         </TableRow>
     </TableLayout>
 
@@ -273,14 +317,61 @@
         android:text="---" />
 
     <TextView
+        android:id="@+id/left_right_location_label"
+        style="@style/DisplayText"
+        android:layout_below="@id/guess_location_textview"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Left/Right Location" />
+
+    <TextView
+        android:id="@+id/left_right_location_value"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/left_right_location_label"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/top_bottom_location_label"
+        style="@style/DisplayText"
+        android:layout_below="@id/left_right_location_label"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Top/Bottom Location" />
+
+    <TextView
+        android:id="@+id/top_bottom_location_value"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/top_bottom_location_label"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:text="---" />
+
+    <TextView
+        android:id="@+id/size_percentage_label"
+        style="@style/DisplayText"
+        android:layout_below="@id/top_bottom_location_label"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Size Percentage" />
+
+    <TextView
+        android:id="@+id/size_percentage_value"
+        style="@style/DisplayText"
+        android:layout_alignBaseline="@id/size_percentage_label"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:text="---" />
+
+    <TextView
         android:id="@+id/right_duty_cycle_textview"
         style="@style/DisplayText"
         android:layout_above="@+id/go_or_mission_complete_button"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
         android:gravity="right"
-        android:text="Right\n0"
-        android:textSize="22sp" />
+        android:text="Right\n0" />
 
     <TextView
         android:id="@+id/left_duty_cycle_textview"
@@ -288,8 +379,7 @@
         android:layout_above="@+id/go_or_mission_complete_button"
         android:layout_alignParentLeft="true"
         android:layout_margin="10dp"
-        android:text="Left\n0"
-        android:textSize="22sp" />
+        android:text="Left\n0" />
 
     <TextView
         android:id="@+id/match_time_textview"

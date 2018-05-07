@@ -182,7 +182,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         mViewFlipper = (ViewFlipper) findViewById(R.id.my_view_flipper);
 
         // When you start using the real hardware you don't need test buttons.
-        boolean hideFakeGpsButtons = false;
+        boolean hideFakeGpsButtons = true;
         if (hideFakeGpsButtons) {
             TableLayout fakeGpsButtonTable = (TableLayout) findViewById(R.id.fake_gps_button_table);
             fakeGpsButtonTable.setVisibility(View.GONE);
@@ -265,6 +265,19 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     setState(State.SEEKING_HOME);
                 }
                 break;
+        }
+
+        if (mConeFound){
+            if (mConeLeftRightLocation < 0){
+
+            }
+            if (mConeSize > 0.1) {
+                mBackgroundJumbo.setBackgroundColor(Color.parseColor("#ff8000"));
+            }
+            else {
+
+                mBackgroundJumbo.setBackgroundColor(Color.GRAY);
+            }
         }
     }
 

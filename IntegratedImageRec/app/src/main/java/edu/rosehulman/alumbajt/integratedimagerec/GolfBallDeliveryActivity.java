@@ -86,7 +86,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
 
     private TextView mJumboXTextView, mJumboYTextView;
 
-    protected ViewFlipper mViewFlipper;
+
 
     protected LinearLayout mBackgroundJumbo;
 

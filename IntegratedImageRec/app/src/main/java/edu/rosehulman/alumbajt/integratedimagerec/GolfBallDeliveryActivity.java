@@ -29,6 +29,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
      * Constant used with logging that you'll see later.
      */
     public static final String TAG = "GolfBallDelivery";
+    protected long mFirebaseUpdateCounter;
 
     public enum State {
         READY_FOR_MISSION,
@@ -182,7 +183,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         mViewFlipper = (ViewFlipper) findViewById(R.id.my_view_flipper);
 
         // When you start using the real hardware you don't need test buttons.
-        boolean hideFakeGpsButtons = true;
+        boolean hideFakeGpsButtons = false;
         if (hideFakeGpsButtons) {
             TableLayout fakeGpsButtonTable = (TableLayout) findViewById(R.id.fake_gps_button_table);
             fakeGpsButtonTable.setVisibility(View.GONE);
@@ -238,7 +239,18 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 setState(State.READY_FOR_MISSION);
             }
         }
-        mMatchTimeTextView.setText(getString(R.string.time_format, timeRemainingSeconds / 60, timeRemainingSeconds % 60));
+        String matchTime = getString(R.string.time_format, timeRemainingSeconds / 60, timeRemainingSeconds % 60);
+        mMatchTimeTextView.setText(matchTime);
+        //Once every 2 seconds (20 calls to this function) send the match and state times to Firebase
+        mFirebaseUpdateCounter++;
+
+        if (mFirebaseUpdateCounter%20 == 0 && mState != State.READY_FOR_MISSION){
+            //send the match time
+            mFirebaseRef.child("time").child("matchTime").setValue(matchTime);
+
+            //send the match time
+            mFirebaseRef.child("time").child("stateTime").setValue(getStateTimeMs()/1000);
+        }
 
         switch (mState) {
 
@@ -303,12 +315,17 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     public void onLocationChanged(double x, double y, double heading, Location location) {
         super.onLocationChanged(x, y, heading, location);
 
+        mFirebaseRef.child("gps").child("x").setValue((int)mCurrentGpsY);
+        mFirebaseRef.child("gps").child("y").setValue((int)mCurrentGpsY);
+
         String gpsInfo = getString(R.string.xy_format, mCurrentGpsX, mCurrentGpsY);
         if (mCurrentGpsHeading != NO_HEADING) {
             gpsInfo += " " + getString(R.string.degrees_format, mCurrentGpsHeading);
             mBackgroundJumbo.setBackgroundColor(Color.GRAY);
+            mFirebaseRef.child("gps").child("heading").setValue((int)mCurrentGpsHeading);
         } else {
             mBackgroundJumbo.setBackgroundColor(Color.GREEN);
+            mFirebaseRef.child("gps").child("heading").setValue("No Heading");
             gpsInfo += " ?°";
         }
         gpsInfo += "   " + mGpsCounter;
@@ -494,6 +511,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
 
     public void handleSetOrigin(View view) {
         mFieldGps.setCurrentLocationAsOrigin();
+        sendMessage("Setting Origin");
     }
 
     public void handleSetXAxis(View view) {
@@ -539,6 +557,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     }
 
     public void setState(State newState) {
+        mFirebaseRef.child("state").setValue(newState);
         // Make sure when the match ends that no scheduled timer events from scripts change the FSM state.
         if (mState == State.READY_FOR_MISSION && newState != State.NEAR_BALL_SCRIPT) {
             Toast.makeText(this, "Illegal state transition out of READY_FOR_MISSION", Toast.LENGTH_SHORT).show();

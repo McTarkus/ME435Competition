@@ -16,6 +16,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
@@ -108,11 +111,23 @@ public class ImageRecActivity extends RobotActivity implements CameraBridgeViewB
     private Mat mRgba;
 
     protected ViewFlipper mViewFlipper;
+    protected DatabaseReference mFirebaseRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mFirebaseRef = database.getReference("message");
+
+//       mFireBaseRef.setValue("Hello, World!");
+
+        sendMessage("I can use FireBase Too");
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mLeftRightLocationTextView = findViewById(R.id.left_right_location_value);
         mTopBottomLocationTextView = findViewById(R.id.top_bottom_location_value);
@@ -144,7 +159,7 @@ public class ImageRecActivity extends RobotActivity implements CameraBridgeViewB
         mRangeVSeekBar.setMax(255);
 
         updateUiWidgetsFromParameters();
-// Code from http://developer.android.com/guide/topics/ui/controls/text.html#ActionEvent
+        // Code from http://developer.android.com/guide/topics/ui/controls/text.html#ActionEvent
         TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -180,9 +195,13 @@ public class ImageRecActivity extends RobotActivity implements CameraBridgeViewB
 
     }
 
+    protected void sendMessage(String message) {
+        mFirebaseRef.setValue(message);
+    }
+
     private void updateImageParameters() {
         // Part #1
-// Grab values from the edit text boxes.
+        // Grab values from the edit text boxes.
         String targetHText = mTargetHEditText.getText().toString();
         String targetSText = mTargetSEditText.getText().toString();
         String targetVText = mTargetVEditText.getText().toString();
@@ -202,7 +221,7 @@ public class ImageRecActivity extends RobotActivity implements CameraBridgeViewB
             return;
         }
         // Part #2
-// Grab values from the sliders
+        // Grab values from the sliders
         mConeRangeH = mRangeHSeekBar.getProgress();
         mConeRangeS = mRangeSSeekBar.getProgress();
         mConeRangeV = mRangeVSeekBar.getProgress();

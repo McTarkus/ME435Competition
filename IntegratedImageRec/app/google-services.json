@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1009744366562",
+    "firebase_url": "https://competition-app.firebaseio.com",
+    "project_id": "competition-app",
+    "storage_bucket": "competition-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009744366562:android:bb520ec57d03fcb4",
+        "android_client_info": {
+          "package_name": "edu.edu.rosehuman.alumbajt.integratedimagerec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009744366562-acomvncp6s5t761igk625sqd6iuesfhd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.edu.rosehuman.alumbajt.integratedimagerec",
+            "certificate_hash": "27b500e6f49d583e04f71c5c98b8a8437848b2e3"
+          }
+        },
+        {
+          "client_id": "1009744366562-g64cp66vbjoukgqhurk0d9onkt3bhela.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPxzUDov1gHgnSG2itglkYvm6zMAnXhvU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009744366562-g64cp66vbjoukgqhurk0d9onkt3bhela.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <org.opencv.android.JavaCameraView
         android:id="@+id/color_blob_detection_activity_surface_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        app:camera_id="front"/>
     <!--The content below should go just below the JavaCameraView in the image_rec_params.xml file.-->
     <TableLayout
         android:layout_width="match_parent"

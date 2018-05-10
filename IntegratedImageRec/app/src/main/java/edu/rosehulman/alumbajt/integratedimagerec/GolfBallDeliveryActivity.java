@@ -30,6 +30,9 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
      */
     public static final String TAG = "GolfBallDelivery";
     protected long mFirebaseUpdateCounter;
+    private BallColor ball1Color;
+    private BallColor ball2Color;
+    private BallColor ball3Color;
 
     public enum State {
         READY_FOR_MISSION,
@@ -190,9 +193,6 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         }
         mScripts = new Scripts(this);
         setState(State.READY_FOR_MISSION);
-        setLocationToColor(1, BallColor.RED);
-        setLocationToColor(2, BallColor.WHITE);
-        setLocationToColor(3, BallColor.BLUE);
     }
 
     /**
@@ -411,24 +411,9 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
      * Sends a message to Arduino to perform a ball color test.
      */
     public void handlePerformBallTest(View view) {
-//        sendCommand();
-
-        onCommandReceived("1R");
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onCommandReceived("2W");
-            }
-        }, 1000);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onCommandReceived("3B");
-            }
-        }, 2000);
+        sendCommand("CUSTOM Perform ball test");
+        mFirebaseRef.child("BallTest").setValue("Sending Command to Arduino");
     }
-
-
     AlertDialog alert;
 
     /**
@@ -539,13 +524,56 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     @Override
     protected void onCommandReceived(String receivedCommand) {
         super.onCommandReceived(receivedCommand);
+        Toast.makeText(this, "Recieved: " + receivedCommand, Toast.LENGTH_SHORT).show();
 
-        if (receivedCommand.equalsIgnoreCase("1R")) {
-            setLocationToColor(1, BallColor.RED);
-        } else if (receivedCommand.equalsIgnoreCase("2W")) {
-            setLocationToColor(2, BallColor.WHITE);
-        } else if (receivedCommand.equalsIgnoreCase("3B")) {
-            setLocationToColor(3, BallColor.BLUE);
+        if (receivedCommand.equals("1_W")) {
+            ball1Color = BallColor.WHITE;
+        } else if (receivedCommand.equals("1_K")) {
+            ball1Color = BallColor.BLACK;
+        } else if (receivedCommand.equals("1_Y")) {
+            ball1Color = BallColor.YELLOW;
+        } else if (receivedCommand.equals("1_B")) {
+            ball1Color = BallColor.BLUE;
+        } else if (receivedCommand.equals("1_R")) {
+            ball1Color = BallColor.RED;
+        } else if (receivedCommand.equals("1_G")) {
+            ball1Color = BallColor.GREEN;
+        } else if (receivedCommand.equals("2_W")) {
+            ball2Color = BallColor.WHITE;
+        } else if (receivedCommand.equals("2_K")) {
+            ball2Color = BallColor.BLACK;
+        } else if (receivedCommand.equals("2_Y")) {
+            ball2Color = BallColor.YELLOW;
+        } else if (receivedCommand.equals("2_B")) {
+            ball2Color = BallColor.BLUE;
+        } else if (receivedCommand.equals("2_R")) {
+            ball2Color = BallColor.RED;
+        } else if (receivedCommand.equals("2_G")) {
+            ball2Color = BallColor.GREEN;
+        } else if (receivedCommand.equals("2_B")) {
+            ball2Color = BallColor.BLUE;
+        } else if (receivedCommand.equals("2_R")) {
+            ball2Color = BallColor.RED;
+        } else if (receivedCommand.equals("2_G")) {
+            ball2Color = BallColor.GREEN;
+        } else if (receivedCommand.equals("3_W")) {
+            ball3Color = BallColor.WHITE;
+        } else if (receivedCommand.equals("3_K")) {
+            ball3Color = BallColor.BLACK;
+        } else if (receivedCommand.equals("3_Y")) {
+            ball3Color = BallColor.YELLOW;
+        } else if (receivedCommand.equals("3_B")) {
+            ball3Color = BallColor.BLUE;
+        } else if (receivedCommand.equals("3_R")) {
+            ball3Color = BallColor.RED;
+        } else if (receivedCommand.equals("3_G")) {
+            ball3Color = BallColor.GREEN;
+        }
+
+        if (receivedCommand.contains("3")){
+            setLocationToColor(1, ball1Color);
+            setLocationToColor(2, ball2Color);
+            setLocationToColor(3, ball3Color);
         }
     }
 

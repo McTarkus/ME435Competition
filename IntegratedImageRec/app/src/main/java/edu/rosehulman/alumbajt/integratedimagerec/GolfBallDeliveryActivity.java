@@ -33,6 +33,12 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     private BallColor ball1Color;
     private BallColor ball2Color;
     private BallColor ball3Color;
+    private int mBlackBallLocation;
+    private int mGreenBallLocation;
+    private int mBlueBallLocation;
+    private int mYellowBallLocation;
+    private int mRedBallLocation;
+    private int DEFAULT_SPEED = 180;
 
     public enum State {
         READY_FOR_MISSION,
@@ -89,7 +95,6 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             mGuessXYTextView, mLeftDutyCycleTextView, mRightDutyCycleTextView, mMatchTimeTextView;
 
     private TextView mJumboXTextView, mJumboYTextView;
-
 
 
     protected LinearLayout mBackgroundJumbo;
@@ -178,7 +183,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         mRightDutyCycleTextView = (TextView) findViewById(R.id.right_duty_cycle_textview);
         mMatchTimeTextView = (TextView) findViewById(R.id.match_time_textview);
         mGoOrMissionCompleteButton = (Button) findViewById(R.id.go_or_mission_complete_button);
-        mGoOrMissionCompleteButtonJumbo = (Button)findViewById(R.id.go_or_mission_complete_button_jumbo);
+        mGoOrMissionCompleteButtonJumbo = (Button) findViewById(R.id.go_or_mission_complete_button_jumbo);
         mJumboXTextView = (TextView) findViewById(R.id.jumbo_x);
         mJumboYTextView = (TextView) findViewById(R.id.jumbo_y);
         mBackgroundJumbo = findViewById(R.id.background_jumbo);
@@ -225,11 +230,11 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     @Override
     public void loop() {
         super.loop();
-        mStateTimeTextView.setText("" + getStateTimeMs()/1000);
-        mGuessXYTextView.setText("(" + (int)mGuessX + ", " + (int)mGuessY + ")");
+        mStateTimeTextView.setText("" + getStateTimeMs() / 1000);
+        mGuessXYTextView.setText("(" + (int) mGuessX + ", " + (int) mGuessY + ")");
 
-        mJumboYTextView.setText(""+(int)mGuessX);
-        mJumboXTextView.setText(""+(int)mGuessY);
+        mJumboYTextView.setText("" + (int) mGuessX);
+        mJumboXTextView.setText("" + (int) mGuessY);
 
         // Match timer.
         long timeRemainingSeconds = MATCH_LENGTH_MS / 1000;
@@ -244,12 +249,12 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         //Once every 2 seconds (20 calls to this function) send the match and state times to Firebase
         mFirebaseUpdateCounter++;
 
-        if (mFirebaseUpdateCounter%20 == 0 && mState != State.READY_FOR_MISSION){
+        if (mFirebaseUpdateCounter % 20 == 0 && mState != State.READY_FOR_MISSION) {
             //send the match time
             mFirebaseRef.child("time").child("matchTime").setValue(matchTime);
 
             //send the match time
-            mFirebaseRef.child("time").child("stateTime").setValue(getStateTimeMs()/1000);
+            mFirebaseRef.child("time").child("stateTime").setValue(getStateTimeMs() / 1000);
         }
 
         switch (mState) {
@@ -264,29 +269,28 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             case FAR_BALL_SCRIPT:
                 break;
             case DRIVE_TOWARD_HOME:
-                seekTargetAt(0,0);
+                seekTargetAt(0, 0);
                 break;
             case WAITING_FOR_PICKUP:
-                if (getStateTimeMs()>8000){
+                if (getStateTimeMs() > 8000) {
                     setState(State.SEEKING_HOME);
                 }
                 break;
             case SEEKING_HOME:
-                seekTargetAt(0,0);
-                if (getStateTimeMs()>8000){
+                seekTargetAt(0, 0);
+                if (getStateTimeMs() > 8000) {
                     setState(State.SEEKING_HOME);
                 }
                 break;
         }
 
-        if (mConeFound){
-            if (mConeLeftRightLocation < 0){
+        if (mConeFound) {
+            if (mConeLeftRightLocation < 0) {
 
             }
             if (mConeSize > 0.1) {
                 mBackgroundJumbo.setBackgroundColor(Color.parseColor("#ff8000"));
-            }
-            else {
+            } else {
 
                 mBackgroundJumbo.setBackgroundColor(Color.GRAY);
             }
@@ -294,8 +298,29 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     }
 
     private void seekTargetAt(double x, double y) {
-//TODO: the right thing
-        sendWheelSpeed((int)x,(int)y);
+        double leftTurnAmount = Math.round(NavUtils.getLeftTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
+        double rightTurnAmount = Math.round(NavUtils.getRightTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
+
+        double leftSpeed;
+        double rightSpeed;
+        if (NavUtils.targetIsOnLeft(mCurrentGpsX, mCurrentGpsY, mCurrentSensorHeading, x, y)) {
+            if (leftTurnAmount < 45) {
+                leftSpeed = DEFAULT_SPEED;
+                rightSpeed = DEFAULT_SPEED;
+            } else {
+                leftSpeed = DEFAULT_SPEED * leftTurnAmount/180;
+                rightSpeed = DEFAULT_SPEED;
+            }
+        } else {
+            if (rightTurnAmount < 45) {
+                leftSpeed = DEFAULT_SPEED;
+                rightSpeed = DEFAULT_SPEED;
+            } else {
+                leftSpeed = DEFAULT_SPEED;
+                rightSpeed = DEFAULT_SPEED * rightTurnAmount/180;
+            }
+        }
+        sendWheelSpeed((int) leftSpeed, (int) rightSpeed);
     }
 
     // --------------------------- Drive command ---------------------------
@@ -308,21 +333,20 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     }
 
 
-
     // --------------------------- Sensor listeners ---------------------------
 
     @Override
     public void onLocationChanged(double x, double y, double heading, Location location) {
         super.onLocationChanged(x, y, heading, location);
 
-        mFirebaseRef.child("gps").child("x").setValue((int)mCurrentGpsY);
-        mFirebaseRef.child("gps").child("y").setValue((int)mCurrentGpsY);
+        mFirebaseRef.child("gps").child("x").setValue((int) mCurrentGpsY);
+        mFirebaseRef.child("gps").child("y").setValue((int) mCurrentGpsY);
 
         String gpsInfo = getString(R.string.xy_format, mCurrentGpsX, mCurrentGpsY);
         if (mCurrentGpsHeading != NO_HEADING) {
             gpsInfo += " " + getString(R.string.degrees_format, mCurrentGpsHeading);
             mBackgroundJumbo.setBackgroundColor(Color.GRAY);
-            mFirebaseRef.child("gps").child("heading").setValue((int)mCurrentGpsHeading);
+            mFirebaseRef.child("gps").child("heading").setValue((int) mCurrentGpsHeading);
         } else {
             mBackgroundJumbo.setBackgroundColor(Color.GREEN);
             mFirebaseRef.child("gps").child("heading").setValue("No Heading");
@@ -339,7 +363,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         }
 
         if (mState == State.DRIVE_TOWARD_HOME) {
-            double distanceFromTarget = NavUtils.getDistance(mCurrentGpsX, mCurrentGpsY, 0,0);
+            double distanceFromTarget = NavUtils.getDistance(mCurrentGpsX, mCurrentGpsY, 0, 0);
             if (distanceFromTarget < ACCEPTED_DISTANCE_AWAY_FT) {
                 setState(State.WAITING_FOR_PICKUP);
             }
@@ -414,6 +438,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         sendCommand("CUSTOM Perform ball test");
         mFirebaseRef.child("BallTest").setValue("Sending Command to Arduino");
     }
+
     AlertDialog alert;
 
     /**
@@ -515,9 +540,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             mGoOrMissionCompleteButton.setText("Mission Complete!");
             mGoOrMissionCompleteButtonJumbo.setBackgroundResource(R.drawable.red_button);
             mGoOrMissionCompleteButtonJumbo.setText("Stop!");
-            //TODO: COMMENTED out for now, just to test arm stuff
-//            setState(State.NEAR_BALL_SCRIPT);
-            mScripts.removeBallAtLocation(2);
+            setState(State.NEAR_BALL_SCRIPT);
         } else {
             setState(State.READY_FOR_MISSION);
         }
@@ -572,7 +595,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             ball3Color = BallColor.GREEN;
         }
 
-        if (receivedCommand.contains("3")){
+        if (receivedCommand.contains("3")) {
             setLocationToColor(1, ball1Color);
             setLocationToColor(2, ball2Color);
             setLocationToColor(3, ball3Color);
@@ -632,20 +655,67 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
 
     private void updateMissionStrategyVariables() {
         //Goal is to set these values
-        mNearBallGpsY = -50;
-        mFarBallGpsY = 50;
-        mNearBallLocation = 1;
+        mNearBallGpsY = 0;
+        mFarBallGpsY = 0;
+        mNearBallLocation = 0;
         mWhiteBallLocation = 0;
-        mFarBallLocation = 3;
+        mBlackBallLocation = 0;
+        mFarBallLocation = 0;
+        mGreenBallLocation = 0;
+        mRedBallLocation = 0;
+        mBlueBallLocation = 0;
+        mYellowBallLocation = 0;
 
-        //Example of how you might write this code
+        //Example of how Syou might write this code
         for (int i = 0; i < 3; i++) {
             BallColor currentLocationColor = mLocationColors[i];
             if (currentLocationColor == BallColor.WHITE) {
                 mWhiteBallLocation = i + 1;
+            } else if (currentLocationColor == BallColor.BLACK) {
+                mBlackBallLocation = i + 1;
+            } else if (currentLocationColor == BallColor.GREEN) {
+                mGreenBallLocation = i + 1;
+            } else if (currentLocationColor == BallColor.RED) {
+                mRedBallLocation = i + 1;
+            } else if (currentLocationColor == BallColor.YELLOW) {
+                mYellowBallLocation = i + 1;
+            } else if (currentLocationColor == BallColor.BLUE) {
+                mBlueBallLocation = i + 1;
             }
         }
-        // TODO: In your project you’ll add more code to calculate the values below correctly!
+
+        if (mOnRedTeam) {
+            if (mGreenBallLocation != 0) {
+                mNearBallLocation = mGreenBallLocation;
+                mNearBallGpsY = 50;
+            } else {
+                mNearBallLocation = mRedBallLocation;
+                mNearBallGpsY = -50;
+            }
+            if (mBlueBallLocation != 0) {
+                mFarBallLocation = mBlueBallLocation;
+                mFarBallGpsY = 50;
+            } else{
+                mFarBallLocation = mYellowBallLocation;
+                mFarBallGpsY = -50;
+            }
+        } else {
+            if (mGreenBallLocation != 0) {
+                mFarBallLocation = mGreenBallLocation;
+                mFarBallGpsY = -50;
+            } else {
+                mFarBallLocation = mRedBallLocation;
+                mFarBallGpsY = 50;
+            }
+            if (mBlueBallLocation != 0) {
+                mNearBallLocation = mBlueBallLocation;
+                mNearBallGpsY = -50;
+            } else{
+                mNearBallLocation = mYellowBallLocation;
+                mNearBallGpsY = 50;
+            }
+        }
+
 
         if (mOnRedTeam) {
             Log.d(TAG, "I'm on the red team!");
@@ -656,7 +726,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
 
         Log.d(TAG, "Near ball location: " + mNearBallLocation + " drop off at " + mNearBallGpsY);
         Log.d(TAG, "Far ball location: " + mFarBallLocation + " drop off at " + mFarBallGpsY);
-        Log.d(TAG, "White ball location: " + mWhiteBallLocation);
+        Log.d(TAG, "White  ball location: " + mWhiteBallLocation);
     }
 
 }

@@ -13,11 +13,19 @@ public class Scripts {
 
     private GolfBallDeliveryActivity mActivity;
 
-    private int ARM_REMOVAL_TIME = 3000;
+    private int ARM_REMOVAL_TIME = 5000;
 
     public Scripts(GolfBallDeliveryActivity activity) {
         mActivity = activity;
     }
+
+    private String HOME = "0 90 0 -90 90";
+    private String BALL1_OPEN = "32 134 -87 -180 13";
+    private String BALL1_FLICK = "55 134 -87 -180 13";
+    private String BALL2_OPEN = "1 125 -87 -173 13";
+    private String BALL2_PRELAUNCH = "1 94 -97 -173 13";
+    private String BALL3_OPEN = "-33 130 -97 -180 13";
+    private String BALL3_FLICK = "-68 130 -87 -180 13";
 
     public void testStraightScript() {
         Toast.makeText(mActivity, "Begin Short straight drive test at " +
@@ -57,6 +65,7 @@ public class Scripts {
         }, driveTimeToNearBallMs + ARM_REMOVAL_TIME);
     }
 
+
     public void farBallScript() {
         mActivity.sendWheelSpeed(0, 0);
         Toast.makeText(mActivity, "Figure out which ball(s) to remove and do it.", Toast.LENGTH_SHORT).show();
@@ -74,26 +83,98 @@ public class Scripts {
         }, ARM_REMOVAL_TIME);
     }
 
-    private void removeBallAtLocation(final int location) {
-        // TODO: Replace with a script that might actually remove a ball. :)
+    protected void removeBallAtLocation(final int location) {
         mActivity.sendCommand("ATTACH 111111"); // Just in case
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mActivity.sendCommand("POSITION 83 90 0 -90 90");
-            }
-        }, 10);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mActivity.sendCommand("POSITION 90 141 -60 -180 169");
-            }
-        }, 2000);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mActivity.setLocationToColor(location, GolfBallDeliveryActivity.BallColor.NONE);
-            }
-        }, ARM_REMOVAL_TIME);
+        switch (location) {
+            case 1:
+                mActivity.sendCommand("POSITION " + HOME);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL1_OPEN);
+                    }
+                }, 1000);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL1_FLICK);
+                    }
+                }, 2500);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + HOME);
+                    }
+                }, 3000);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.setLocationToColor(location, GolfBallDeliveryActivity.BallColor.NONE);
+                    }
+                }, ARM_REMOVAL_TIME);
+                break;
+            case 2:
+                mActivity.sendCommand("POSITION " + HOME);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL2_OPEN);
+                    }
+                }, 1000);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL2_PRELAUNCH);
+                    }
+                }, 2500);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL2_OPEN);
+                    }
+                }, 3500);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + HOME);
+                    }
+                }, 4500);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.setLocationToColor(location, GolfBallDeliveryActivity.BallColor.NONE);
+                    }
+                }, ARM_REMOVAL_TIME);
+                break;
+            case 3:
+                mActivity.sendCommand("POSITION " + HOME);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL3_OPEN);
+                    }
+                }, 1000);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL3_FLICK);
+                    }
+                }, 2500);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + HOME);
+                    }
+                }, 3000);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.setLocationToColor(location, GolfBallDeliveryActivity.BallColor.NONE);
+                    }
+                }, ARM_REMOVAL_TIME);
+                break;
+        }
+
+
     }
 }

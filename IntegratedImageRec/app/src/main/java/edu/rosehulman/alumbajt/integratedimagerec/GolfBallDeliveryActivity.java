@@ -515,7 +515,9 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             mGoOrMissionCompleteButton.setText("Mission Complete!");
             mGoOrMissionCompleteButtonJumbo.setBackgroundResource(R.drawable.red_button);
             mGoOrMissionCompleteButtonJumbo.setText("Stop!");
-            setState(State.NEAR_BALL_SCRIPT);
+            //TODO: COMMENTED out for now, just to test arm stuff
+//            setState(State.NEAR_BALL_SCRIPT);
+            mScripts.removeBallAtLocation(2);
         } else {
             setState(State.READY_FOR_MISSION);
         }
@@ -607,7 +609,6 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mGpsInfoTextView.setText("---"); // Clear GPS display (optional)
                 mGuessXYTextView.setText("---"); // Clear guess display (optional)
                 mScripts.nearBallScript();
-
                 mViewFlipper.setDisplayedChild(2);
                 break;
             case DRIVE_TOWARDS_FAR_BALL:

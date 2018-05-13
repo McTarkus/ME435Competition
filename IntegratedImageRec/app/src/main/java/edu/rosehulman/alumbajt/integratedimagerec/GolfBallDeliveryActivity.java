@@ -265,20 +265,48 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             case READY_FOR_MISSION:
                 break;
             case DRIVE_TOWARDS_NEAR_BALL:
+                if (getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY) <= 20) {
+                    setState(State.NEAR_BALL_IMAGE_REC);
+                }
                 seekTargetAt(NEAR_BALL_GPS_X, mNearBallGpsY);
                 break;
             case NEAR_BALL_IMAGE_REC:
+                if (getStateTimeMs() > 5000) {
+                    setState(State.NEAR_BALL_SCRIPT);
+                }
+                else if (!mConeFound) {
+                    sendWheelSpeed(DEFAULT_SPEED, (int) (DEFAULT_SPEED*0.25));
+                } else {
+                    //TODO: Movement code for finding cone
+                }
                 break;
             case NEAR_BALL_SCRIPT:
+                //Done in set State
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
+                if (getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY) <= 20) {
+                    setState(State.FAR_BALL_IMAGE_REC);
+                }
                 seekTargetAt(FAR_BALL_GPS_X, mFarBallGpsY);
                 break;
             case FAR_BALL_IMAGE_REC:
+                if (getStateTimeMs() > 5000) {
+                    setState(State.FAR_BALL_SCRIPT);
+                }
+                else if (!mConeFound) {
+                    sendWheelSpeed(DEFAULT_SPEED, (int) (DEFAULT_SPEED*0.25));
+                } else {
+                    //TODO: Movement code for finding cone
+                }
                 break;
             case FAR_BALL_SCRIPT:
+                //Done in set state
                 break;
             case DRIVE_TOWARD_HOME:
+                if (getDistanceToGoal(0, 0) <=20) {
+                    //TODO: image rec stuff
+                    setState(State.WAITING_FOR_PICKUP);
+                }
                 seekTargetAt(0, 0);
                 break;
             case WAITING_FOR_PICKUP:
@@ -288,8 +316,8 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 break;
             case SEEKING_HOME:
                 seekTargetAt(0, 0);
-                if (getStateTimeMs() > 8000) {
-                    setState(State.SEEKING_HOME);
+                if (getStateTimeMs() > 4000) {
+                    setState(State.WAITING_FOR_PICKUP);
                 }
                 break;
         }
@@ -306,7 +334,9 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             }
         }
     }
-
+    private double getDistanceToGoal(long x, double y) {
+        return NavUtils.getDistance(x, y, mCurrentGpsX, mCurrentGpsY);
+    }
     private void seekTargetAt(double x, double y) {
         double leftTurnAmount = Math.round(NavUtils.getLeftTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
         double rightTurnAmount = Math.round(NavUtils.getRightTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
@@ -629,7 +659,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     public void setState(State newState) {
         mFirebaseRef.child("state").setValue(newState);
         // Make sure when the match ends that no scheduled timer events from scripts change the FSM state.
-        if (mState == State.READY_FOR_MISSION && newState != State.NEAR_BALL_SCRIPT) {
+        if (mState == State.READY_FOR_MISSION && newState != State.DRIVE_TOWARDS_NEAR_BALL) {
             Toast.makeText(this, "Illegal state transition out of READY_FOR_MISSION", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -687,7 +717,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 sendWheelSpeed(0, 0);
                 break;
             case SEEKING_HOME:
-                // Actions handled in the loop function.
+                //done in loop
                 break;
         }
         mState = newState;

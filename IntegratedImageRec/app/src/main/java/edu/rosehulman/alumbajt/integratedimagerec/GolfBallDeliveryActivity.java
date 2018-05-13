@@ -42,8 +42,11 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
 
     public enum State {
         READY_FOR_MISSION,
+        DRIVE_TOWARDS_NEAR_BALL,
+        NEAR_BALL_IMAGE_REC,
         NEAR_BALL_SCRIPT,
         DRIVE_TOWARDS_FAR_BALL,
+        FAR_BALL_IMAGE_REC,
         FAR_BALL_SCRIPT,
         DRIVE_TOWARD_HOME,
         WAITING_FOR_PICKUP,
@@ -261,10 +264,17 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
 
             case READY_FOR_MISSION:
                 break;
+            case DRIVE_TOWARDS_NEAR_BALL:
+                seekTargetAt(NEAR_BALL_GPS_X, mNearBallGpsY);
+                break;
+            case NEAR_BALL_IMAGE_REC:
+                break;
             case NEAR_BALL_SCRIPT:
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
                 seekTargetAt(FAR_BALL_GPS_X, mFarBallGpsY);
+                break;
+            case FAR_BALL_IMAGE_REC:
                 break;
             case FAR_BALL_SCRIPT:
                 break;
@@ -304,20 +314,20 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         double leftSpeed;
         double rightSpeed;
         if (NavUtils.targetIsOnLeft(mCurrentGpsX, mCurrentGpsY, mCurrentSensorHeading, x, y)) {
-            if (leftTurnAmount < 45) {
+            if (leftTurnAmount < 30) {
                 leftSpeed = DEFAULT_SPEED;
                 rightSpeed = DEFAULT_SPEED;
             } else {
-                leftSpeed = DEFAULT_SPEED * leftTurnAmount/180;
+                leftSpeed = DEFAULT_SPEED * leftTurnAmount/200;
                 rightSpeed = DEFAULT_SPEED;
             }
         } else {
-            if (rightTurnAmount < 45) {
+            if (rightTurnAmount < 30) {
                 leftSpeed = DEFAULT_SPEED;
                 rightSpeed = DEFAULT_SPEED;
             } else {
                 leftSpeed = DEFAULT_SPEED;
-                rightSpeed = DEFAULT_SPEED * rightTurnAmount/180;
+                rightSpeed = DEFAULT_SPEED * rightTurnAmount/200;
             }
         }
         sendWheelSpeed((int) leftSpeed, (int) rightSpeed);
@@ -540,7 +550,14 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             mGoOrMissionCompleteButton.setText("Mission Complete!");
             mGoOrMissionCompleteButtonJumbo.setBackgroundResource(R.drawable.red_button);
             mGoOrMissionCompleteButtonJumbo.setText("Stop!");
-            setState(State.NEAR_BALL_SCRIPT);
+            sendWheelSpeed(DEFAULT_SPEED, DEFAULT_SPEED);
+            mCommandHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sendWheelSpeed(0, 0);
+                    setState(State.DRIVE_TOWARDS_NEAR_BALL);
+                }
+            }, 4000);
         } else {
             setState(State.READY_FOR_MISSION);
         }
@@ -628,17 +645,40 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mViewFlipper.setDisplayedChild(0);
                 sendWheelSpeed(0, 0);
                 break;
-            case NEAR_BALL_SCRIPT:
+            case DRIVE_TOWARDS_NEAR_BALL:
                 mGpsInfoTextView.setText("---"); // Clear GPS display (optional)
                 mGuessXYTextView.setText("---"); // Clear guess display (optional)
-                mScripts.nearBallScript();
+//                mScripts.nearBallScript();
                 mViewFlipper.setDisplayedChild(2);
+                break;
+            case NEAR_BALL_IMAGE_REC:
+                break;
+            case NEAR_BALL_SCRIPT:
+                mScripts.removeBallAtLocation(mNearBallLocation);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setState(State.DRIVE_TOWARDS_FAR_BALL);
+                    }
+                }, 5000);
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
                 // All actions handled in the loop function.
                 break;
+            case FAR_BALL_IMAGE_REC:
+                break;
             case FAR_BALL_SCRIPT:
-                mScripts.farBallScript();
+//                mScripts.farBallScript();
+                mScripts.removeBallAtLocation(mFarBallLocation);
+                if (mWhiteBallLocation != 0) {
+                    mScripts.removeBallAtLocation(mWhiteBallLocation);
+                }
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setState(State.DRIVE_TOWARD_HOME);
+                    }
+                }, 5000);
                 break;
             case DRIVE_TOWARD_HOME:
                 // All actions handled in the loop function.

@@ -41,47 +41,47 @@ public class Scripts {
         }, 8000);
     }
 
-    public void nearBallScript() {
-
-        Toast.makeText(mActivity, "Drive 103 ft to near ball.", Toast.LENGTH_SHORT).show();
-        double distanceToNearBall = NavUtils.getDistance(15, 0, 90, 50);
-        long driveTimeToNearBallMs = (long) (distanceToNearBall / RobotActivity.DEFAULT_SPEED_FT_PER_SEC * 1000);
-        // Well done with the math, but now let’s cheat
-        driveTimeToNearBallMs = 3000; // Make this mock script not take so long.
-        mActivity.sendWheelSpeed(mActivity.mLeftStraightPwmValue, mActivity.mRightStraightPwmValue);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                removeBallAtLocation(mActivity.mNearBallLocation);
-            }
-        }, driveTimeToNearBallMs);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mActivity.mState == GolfBallDeliveryActivity.State.NEAR_BALL_SCRIPT) {
-                    mActivity.setState(GolfBallDeliveryActivity.State.DRIVE_TOWARDS_FAR_BALL);
-                }
-            }
-        }, driveTimeToNearBallMs + ARM_REMOVAL_TIME);
-    }
-
-
-    public void farBallScript() {
-        mActivity.sendWheelSpeed(0, 0);
-        Toast.makeText(mActivity, "Figure out which ball(s) to remove and do it.", Toast.LENGTH_SHORT).show();
-        removeBallAtLocation(mActivity.mFarBallLocation);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mActivity.mWhiteBallLocation > 0) {
-                    removeBallAtLocation(mActivity.mWhiteBallLocation);
-                }
-                if (mActivity.mState == GolfBallDeliveryActivity.State.FAR_BALL_SCRIPT) {
-                    mActivity.setState(GolfBallDeliveryActivity.State.DRIVE_TOWARD_HOME);
-                }
-            }
-        }, ARM_REMOVAL_TIME);
-    }
+//    public void nearBallScript() {
+//
+//        Toast.makeText(mActivity, "Drive 103 ft to near ball.", Toast.LENGTH_SHORT).show();
+//        double distanceToNearBall = NavUtils.getDistance(15, 0, 90, 50);
+//        long driveTimeToNearBallMs = (long) (distanceToNearBall / RobotActivity.DEFAULT_SPEED_FT_PER_SEC * 1000);
+//        // Well done with the math, but now let’s cheat
+//        driveTimeToNearBallMs = 3000; // Make this mock script not take so long.
+//        mActivity.sendWheelSpeed(mActivity.mLeftStraightPwmValue, mActivity.mRightStraightPwmValue);
+//        mCommandHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                removeBallAtLocation(mActivity.mNearBallLocation);
+//            }
+//        }, driveTimeToNearBallMs);
+//        mCommandHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (mActivity.mState == GolfBallDeliveryActivity.State.NEAR_BALL_SCRIPT) {
+//                    mActivity.setState(GolfBallDeliveryActivity.State.DRIVE_TOWARDS_FAR_BALL);
+//                }
+//            }
+//        }, driveTimeToNearBallMs + ARM_REMOVAL_TIME);
+//    }
+//
+//
+//    public void farBallScript() {
+//        mActivity.sendWheelSpeed(0, 0);
+//        Toast.makeText(mActivity, "Figure out which ball(s) to remove and do it.", Toast.LENGTH_SHORT).show();
+//        removeBallAtLocation(mActivity.mFarBallLocation);
+//        mCommandHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (mActivity.mWhiteBallLocation > 0) {
+//                    removeBallAtLocation(mActivity.mWhiteBallLocation);
+//                }
+//                if (mActivity.mState == GolfBallDeliveryActivity.State.FAR_BALL_SCRIPT) {
+//                    mActivity.setState(GolfBallDeliveryActivity.State.DRIVE_TOWARD_HOME);
+//                }
+//            }
+//        }, ARM_REMOVAL_TIME);
+//    }
 
     protected void removeBallAtLocation(final int location) {
         mActivity.sendCommand("ATTACH 111111"); // Just in case

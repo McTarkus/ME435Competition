@@ -26,6 +26,7 @@ public class Scripts {
     private String BALL2_PRELAUNCH = "1 94 -97 -173 13";
     private String BALL3_OPEN = "-33 130 -97 -180 13";
     private String BALL3_FLICK = "-68 130 -87 -180 13";
+    private String ZERO = "0 0 0 0 0";
 
     public void testStraightScript() {
         Toast.makeText(mActivity, "Begin Short straight drive test at " +

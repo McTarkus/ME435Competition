@@ -194,7 +194,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         mViewFlipper = (ViewFlipper) findViewById(R.id.my_view_flipper);
 
         // When you start using the real hardware you don't need test buttons.
-        boolean hideFakeGpsButtons = false;
+        boolean hideFakeGpsButtons = true;
         if (hideFakeGpsButtons) {
             TableLayout fakeGpsButtonTable = (TableLayout) findViewById(R.id.fake_gps_button_table);
             fakeGpsButtonTable.setVisibility(View.GONE);
@@ -277,14 +277,14 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 else if (!mConeFound) {
                     sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
                 } else {
-                    if (mConeSize > 0.4) {
+                    if (mConeSize > 0.07) {
                         sendWheelSpeed(0, 0);
                         setState(State.NEAR_BALL_SCRIPT);
                     }
-                    else if (mConeLeftRightLocation > 0.25) {
+                    else if (mConeTopBottomLocation > 0.75) {
                         sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
                     }
-                    else if (mConeLeftRightLocation < -0.25) {
+                    else if (mConeTopBottomLocation < 0.25) {
                         sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
                     }
                     else {
@@ -308,14 +308,14 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 else if (!mConeFound) {
                     sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
                 } else {
-                    if (mConeSize > 0.4) {
+                    if (mConeSize > 0.07) {
                         sendWheelSpeed(0, 0);
                         setState(State.FAR_BALL_SCRIPT);
                     }
-                    else if (mConeLeftRightLocation > 0.25) {
+                    else if (mConeTopBottomLocation > 0.75) {
                         sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
                     }
-                    else if (mConeLeftRightLocation < -0.25) {
+                    else if (mConeTopBottomLocation < 0.25) {
                         sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
                     }
                     else {
@@ -328,8 +328,26 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 break;
             case DRIVE_TOWARD_HOME:
                 if (getDistanceToGoal(0, 0) <=20) {
-                    //TODO: image rec stuff
-                    setState(State.WAITING_FOR_PICKUP);
+                    if (getStateTimeMs() > 5000) {
+                        setState(State.WAITING_FOR_PICKUP);
+                    }
+                    else if (!mConeFound) {
+                        sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
+                    } else {
+                        if (mConeSize > 0.07) {
+                            sendWheelSpeed(0, 0);
+                            setState(State.WAITING_FOR_PICKUP);
+                        }
+                        else if (mConeTopBottomLocation > 0.75) {
+                            sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
+                        }
+                        else if (mConeTopBottomLocation < 0.25) {
+                            sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
+                        }
+                        else {
+                            sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/2);
+                        }
+                    }
                 }
                 seekTargetAt(0, 0);
                 break;
@@ -419,19 +437,19 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         gpsInfo += "   " + mGpsCounter;
         mGpsInfoTextView.setText(gpsInfo);
 
-        if (mState == State.DRIVE_TOWARDS_FAR_BALL) {
-            double distanceFromTarget = NavUtils.getDistance(mCurrentGpsX, mCurrentGpsY, FAR_BALL_GPS_X, mFarBallGpsY);
-            if (distanceFromTarget < ACCEPTED_DISTANCE_AWAY_FT) {
-                setState(State.FAR_BALL_SCRIPT);
-            }
-        }
-
-        if (mState == State.DRIVE_TOWARD_HOME) {
-            double distanceFromTarget = NavUtils.getDistance(mCurrentGpsX, mCurrentGpsY, 0, 0);
-            if (distanceFromTarget < ACCEPTED_DISTANCE_AWAY_FT) {
-                setState(State.WAITING_FOR_PICKUP);
-            }
-        }
+//        if (mState == State.DRIVE_TOWARDS_FAR_BALL) {
+//            double distanceFromTarget = NavUtils.getDistance(mCurrentGpsX, mCurrentGpsY, FAR_BALL_GPS_X, mFarBallGpsY);
+//            if (distanceFromTarget < ACCEPTED_DISTANCE_AWAY_FT) {
+//                setState(State.FAR_BALL_SCRIPT);
+//            }
+//        }
+//
+//        if (mState == State.DRIVE_TOWARD_HOME) {
+//            double distanceFromTarget = NavUtils.getDistance(mCurrentGpsX, mCurrentGpsY, 0, 0);
+//            if (distanceFromTarget < ACCEPTED_DISTANCE_AWAY_FT) {
+//                setState(State.WAITING_FOR_PICKUP);
+//            }
+//        }
 
     }
 
@@ -706,8 +724,10 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mViewFlipper.setDisplayedChild(2);
                 break;
             case NEAR_BALL_IMAGE_REC:
+                sendCommand("POSITION 0 0 0 0 0");
                 break;
             case NEAR_BALL_SCRIPT:
+                sendCommand("ATTACH 111111");
                 mScripts.removeBallAtLocation(mNearBallLocation);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
@@ -720,6 +740,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 // All actions handled in the loop function.
                 break;
             case FAR_BALL_IMAGE_REC:
+                sendCommand("POSITION 0 0 0 0 0");
                 break;
             case FAR_BALL_SCRIPT:
 //                mScripts.farBallScript();
@@ -735,6 +756,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 }, 5000);
                 break;
             case DRIVE_TOWARD_HOME:
+                sendCommand("POSITION 0 0 0 0 0");
                 // All actions handled in the loop function.
                 break;
             case WAITING_FOR_PICKUP:
@@ -760,7 +782,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         mBlueBallLocation = 0;
         mYellowBallLocation = 0;
 
-        //Example of how Syou might write this code
+        //Example of how you might write this code
         for (int i = 0; i < 3; i++) {
             BallColor currentLocationColor = mLocationColors[i];
             if (currentLocationColor == BallColor.WHITE) {

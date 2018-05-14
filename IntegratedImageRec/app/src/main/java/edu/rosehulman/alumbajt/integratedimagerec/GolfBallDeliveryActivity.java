@@ -38,7 +38,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     private int mBlueBallLocation;
     private int mYellowBallLocation;
     private int mRedBallLocation;
-    private int DEFAULT_SPEED = 180;
+    private int DEFAULT_SPEED = 255;
 
     public enum State {
         READY_FOR_MISSION,
@@ -169,6 +169,8 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     // ------------------------ End of Driving area ------------------------------
 
 
+    private String ARM_RESET = "1 125 -87 -173 13";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -265,30 +267,32 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             case READY_FOR_MISSION:
                 break;
             case DRIVE_TOWARDS_NEAR_BALL:
+                if (getStateTimeMs() > 60000) {
+                    setState(State.NEAR_BALL_SCRIPT);
+                }
                 if (getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY) <= 20) {
                     setState(State.NEAR_BALL_IMAGE_REC);
                 }
+                mFirebaseRef.child("MOVING VALUES").child("distance").setValue(getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY));
+                mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(NEAR_BALL_GPS_X, mNearBallGpsY);
+
                 seekTargetAt(NEAR_BALL_GPS_X, mNearBallGpsY);
                 break;
             case NEAR_BALL_IMAGE_REC:
                 if (getStateTimeMs() > 5000) {
                     setState(State.NEAR_BALL_SCRIPT);
-                }
-                else if (!mConeFound) {
-                    sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
+                } else if (!mConeFound) {
+                    sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
                 } else {
                     if (mConeSize > 0.07) {
                         sendWheelSpeed(0, 0);
                         setState(State.NEAR_BALL_SCRIPT);
-                    }
-                    else if (mConeTopBottomLocation > 0.75) {
-                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
-                    }
-                    else if (mConeTopBottomLocation < 0.25) {
-                        sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
-                    }
-                    else {
-                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/2);
+                    } else if (mConeLeftRightLocation > 0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED / 2, DEFAULT_SPEED / 4);
+                    } else if (mConeLeftRightLocation < -0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED / 4, DEFAULT_SPEED / 2);
+                    } else {
+                        sendWheelSpeed(DEFAULT_SPEED / 2, DEFAULT_SPEED / 2);
                     }
                 }
                 break;
@@ -296,30 +300,31 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 //Done in set State
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
+                if (getStateTimeMs() > 60000) {
+                    setState(State.FAR_BALL_SCRIPT);
+                }
                 if (getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY) <= 20) {
                     setState(State.FAR_BALL_IMAGE_REC);
                 }
+                mFirebaseRef.child("MOVING VALUES").child("distance").setValue(getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY));
+                mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(FAR_BALL_GPS_X, mFarBallGpsY);
                 seekTargetAt(FAR_BALL_GPS_X, mFarBallGpsY);
                 break;
             case FAR_BALL_IMAGE_REC:
                 if (getStateTimeMs() > 5000) {
                     setState(State.FAR_BALL_SCRIPT);
-                }
-                else if (!mConeFound) {
-                    sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
+                } else if (!mConeFound) {
+                    sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
                 } else {
                     if (mConeSize > 0.07) {
                         sendWheelSpeed(0, 0);
                         setState(State.FAR_BALL_SCRIPT);
-                    }
-                    else if (mConeTopBottomLocation > 0.75) {
-                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
-                    }
-                    else if (mConeTopBottomLocation < 0.25) {
-                        sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
-                    }
-                    else {
-                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/2);
+                    } else if (mConeLeftRightLocation > 0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED / 2, DEFAULT_SPEED / 4);
+                    } else if (mConeLeftRightLocation < -0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED / 4, DEFAULT_SPEED / 2);
+                    } else {
+                        sendWheelSpeed(DEFAULT_SPEED / 2, DEFAULT_SPEED / 2);
                     }
                 }
                 break;
@@ -357,16 +362,33 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 }
                 break;
             case SEEKING_HOME:
-                seekTargetAt(0, 0);
-                if (getStateTimeMs() > 4000) {
+                if (getStateTimeMs() > 5000) {
                     setState(State.WAITING_FOR_PICKUP);
+                } else if (getDistanceToGoal(0, 0) >= 20) {
+
+                    mFirebaseRef.child("MOVING VALUES").child("distance").setValue(getDistanceToGoal(0, 0));
+                    mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(0, 0);
+                    seekTargetAt(0, 0);
+                } else if (!mConeFound) {
+                    sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
+                } else {
+                    if (mConeSize > 0.07) {
+                        sendWheelSpeed(0, 0);
+                        setState(State.WAITING_FOR_PICKUP);
+                    } else if (mConeLeftRightLocation > 0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED / 2, DEFAULT_SPEED / 4);
+                    } else if (mConeLeftRightLocation < -0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED / 4, DEFAULT_SPEED / 2);
+                    } else {
+                        sendWheelSpeed(DEFAULT_SPEED / 2, DEFAULT_SPEED / 2);
+                    }
                 }
                 break;
         }
-
-        if (mConeFound) {
+        //Code just for setting background colors
+        if (mConeFound)
+        {
             if (mConeLeftRightLocation < 0) {
-
             }
             if (mConeSize > 0.1) {
                 mBackgroundJumbo.setBackgroundColor(Color.parseColor("#ff8000"));
@@ -376,9 +398,11 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             }
         }
     }
+
     private double getDistanceToGoal(long x, double y) {
         return NavUtils.getDistance(x, y, mCurrentGpsX, mCurrentGpsY);
     }
+
     private void seekTargetAt(double x, double y) {
         double leftTurnAmount = Math.round(NavUtils.getLeftTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
         double rightTurnAmount = Math.round(NavUtils.getRightTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
@@ -390,7 +414,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 leftSpeed = DEFAULT_SPEED;
                 rightSpeed = DEFAULT_SPEED;
             } else {
-                leftSpeed = DEFAULT_SPEED * leftTurnAmount/200;
+                leftSpeed = DEFAULT_SPEED * leftTurnAmount / 200;
                 rightSpeed = DEFAULT_SPEED;
             }
         } else {
@@ -399,7 +423,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 rightSpeed = DEFAULT_SPEED;
             } else {
                 leftSpeed = DEFAULT_SPEED;
-                rightSpeed = DEFAULT_SPEED * rightTurnAmount/200;
+                rightSpeed = DEFAULT_SPEED * rightTurnAmount / 200;
             }
         }
         sendWheelSpeed((int) leftSpeed, (int) rightSpeed);
@@ -622,14 +646,15 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             mGoOrMissionCompleteButton.setText("Mission Complete!");
             mGoOrMissionCompleteButtonJumbo.setBackgroundResource(R.drawable.red_button);
             mGoOrMissionCompleteButtonJumbo.setText("Stop!");
-            sendWheelSpeed(DEFAULT_SPEED, DEFAULT_SPEED);
-            mCommandHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    sendWheelSpeed(0, 0);
-                    setState(State.DRIVE_TOWARDS_NEAR_BALL);
-                }
-            }, 4000);
+//            sendWheelSpeed(DEFAULT_SPEED, DEFAULT_SPEED);
+//            mCommandHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    sendWheelSpeed(0, 0);
+//                    setState(State.DRIVE_TOWARDS_NEAR_BALL);
+//                }
+//            }, 4000);
+            setState(mState.NEAR_BALL_IMAGE_REC);
         } else {
             setState(State.READY_FOR_MISSION);
         }
@@ -701,7 +726,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     public void setState(State newState) {
         mFirebaseRef.child("state").setValue(newState);
         // Make sure when the match ends that no scheduled timer events from scripts change the FSM state.
-        if (mState == State.READY_FOR_MISSION && newState != State.DRIVE_TOWARDS_NEAR_BALL) {
+        if (mState == State.READY_FOR_MISSION && newState != State.DRIVE_TOWARDS_NEAR_BALL && newState != State.NEAR_BALL_IMAGE_REC) {
             Toast.makeText(this, "Illegal state transition out of READY_FOR_MISSION", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -724,7 +749,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mViewFlipper.setDisplayedChild(2);
                 break;
             case NEAR_BALL_IMAGE_REC:
-                sendCommand("POSITION 0 0 0 0 0");
+                sendCommand("POSITION " + ARM_RESET);
                 break;
             case NEAR_BALL_SCRIPT:
                 sendCommand("ATTACH 111111");
@@ -732,18 +757,24 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        setState(State.DRIVE_TOWARDS_FAR_BALL);
+                        sendWheelSpeed(-DEFAULT_SPEED, -DEFAULT_SPEED);
                     }
                 }, 5000);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sendWheelSpeed(0, 0);
+                        setState(State.DRIVE_TOWARDS_FAR_BALL);
+                    }
+                }, 7000);
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
                 // All actions handled in the loop function.
                 break;
             case FAR_BALL_IMAGE_REC:
-                sendCommand("POSITION 0 0 0 0 0");
+                sendCommand("POSITION " + ARM_RESET);
                 break;
             case FAR_BALL_SCRIPT:
-//                mScripts.farBallScript();
                 mScripts.removeBallAtLocation(mFarBallLocation);
                 if (mWhiteBallLocation != 0) {
                     mScripts.removeBallAtLocation(mWhiteBallLocation);
@@ -751,12 +782,19 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        setState(State.DRIVE_TOWARD_HOME);
+                        sendWheelSpeed(-DEFAULT_SPEED, -DEFAULT_SPEED);
                     }
                 }, 5000);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sendWheelSpeed(0, 0);
+                        setState(State.DRIVE_TOWARD_HOME);
+                    }
+                }, 7000);
                 break;
             case DRIVE_TOWARD_HOME:
-                sendCommand("POSITION 0 0 0 0 0");
+                sendCommand("POSITION " + ARM_RESET);
                 // All actions handled in the loop function.
                 break;
             case WAITING_FOR_PICKUP:
@@ -811,7 +849,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             if (mBlueBallLocation != 0) {
                 mFarBallLocation = mBlueBallLocation;
                 mFarBallGpsY = 50;
-            } else{
+            } else {
                 mFarBallLocation = mYellowBallLocation;
                 mFarBallGpsY = -50;
             }
@@ -826,7 +864,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             if (mBlueBallLocation != 0) {
                 mNearBallLocation = mBlueBallLocation;
                 mNearBallGpsY = -50;
-            } else{
+            } else {
                 mNearBallLocation = mYellowBallLocation;
                 mNearBallGpsY = 50;
             }

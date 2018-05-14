@@ -275,9 +275,21 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     setState(State.NEAR_BALL_SCRIPT);
                 }
                 else if (!mConeFound) {
-                    sendWheelSpeed(DEFAULT_SPEED, (int) (DEFAULT_SPEED*0.25));
+                    sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
                 } else {
-                    //TODO: Movement code for finding cone
+                    if (mConeSize > 0.4) {
+                        sendWheelSpeed(0, 0);
+                        setState(State.NEAR_BALL_SCRIPT);
+                    }
+                    else if (mConeLeftRightLocation > 0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
+                    }
+                    else if (mConeLeftRightLocation < -0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
+                    }
+                    else {
+                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/2);
+                    }
                 }
                 break;
             case NEAR_BALL_SCRIPT:
@@ -294,9 +306,21 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     setState(State.FAR_BALL_SCRIPT);
                 }
                 else if (!mConeFound) {
-                    sendWheelSpeed(DEFAULT_SPEED, (int) (DEFAULT_SPEED*0.25));
+                    sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
                 } else {
-                    //TODO: Movement code for finding cone
+                    if (mConeSize > 0.4) {
+                        sendWheelSpeed(0, 0);
+                        setState(State.FAR_BALL_SCRIPT);
+                    }
+                    else if (mConeLeftRightLocation > 0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
+                    }
+                    else if (mConeLeftRightLocation < -0.25) {
+                        sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
+                    }
+                    else {
+                        sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/2);
+                    }
                 }
                 break;
             case FAR_BALL_SCRIPT:

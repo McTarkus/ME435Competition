@@ -19,14 +19,14 @@ public class Scripts {
         mActivity = activity;
     }
 
-    private String HOME = "0 90 0 -90 90";
+    protected String HOME = "0 90 0 -90 90";
     private String BALL1_OPEN = "32 134 -87 -180 13";
     private String BALL1_FLICK = "55 134 -87 -180 13";
     private String BALL2_OPEN = "1 125 -87 -173 13";
     private String BALL2_PRELAUNCH = "1 94 -97 -173 13";
     private String BALL3_OPEN = "-33 130 -97 -180 13";
     private String BALL3_FLICK = "-68 130 -87 -180 13";
-    private String ZERO = "0 0 0 0 0";
+    protected String ZERO = "0 0 0 0 0";
 
     public void testStraightScript() {
         Toast.makeText(mActivity, "Begin Short straight drive test at " +

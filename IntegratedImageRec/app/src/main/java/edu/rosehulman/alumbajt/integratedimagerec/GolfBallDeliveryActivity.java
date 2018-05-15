@@ -196,7 +196,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         mViewFlipper = (ViewFlipper) findViewById(R.id.my_view_flipper);
 
         // When you start using the real hardware you don't need test buttons.
-        boolean hideFakeGpsButtons = true;
+        boolean hideFakeGpsButtons = false;
         if (hideFakeGpsButtons) {
             TableLayout fakeGpsButtonTable = (TableLayout) findViewById(R.id.fake_gps_button_table);
             fakeGpsButtonTable.setVisibility(View.GONE);
@@ -268,18 +268,26 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 break;
             case DRIVE_TOWARDS_NEAR_BALL:
                 if (getStateTimeMs() > 60000) {
+                    sendWheelSpeed(0, 0);
                     setState(State.NEAR_BALL_SCRIPT);
                 }
-                if (getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY) <= 20) {
-                    setState(State.NEAR_BALL_IMAGE_REC);
+                if (getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY) <= 10) {
+                    sendWheelSpeed(0, 0);
+                    mCommandHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setState(State.NEAR_BALL_IMAGE_REC);
+                        }
+                    }, 2000);
                 }
                 mFirebaseRef.child("MOVING VALUES").child("distance").setValue(getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY));
-                mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(NEAR_BALL_GPS_X, mNearBallGpsY);
+                mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(NEAR_BALL_GPS_X + ",  " + mNearBallGpsY);
 
                 seekTargetAt(NEAR_BALL_GPS_X, mNearBallGpsY);
                 break;
             case NEAR_BALL_IMAGE_REC:
                 if (getStateTimeMs() > 5000) {
+                    sendWheelSpeed(0, 0);
                     setState(State.NEAR_BALL_SCRIPT);
                 } else if (!mConeFound) {
                     sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
@@ -301,17 +309,26 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
                 if (getStateTimeMs() > 60000) {
+
+                    sendWheelSpeed(0, 0);
                     setState(State.FAR_BALL_SCRIPT);
                 }
-                if (getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY) <= 20) {
-                    setState(State.FAR_BALL_IMAGE_REC);
+                if (getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY) <= 10) {
+                    sendWheelSpeed(0, 0);
+                    mCommandHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setState(State.FAR_BALL_IMAGE_REC);
+                        }
+                    }, 2000);
                 }
                 mFirebaseRef.child("MOVING VALUES").child("distance").setValue(getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY));
-                mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(FAR_BALL_GPS_X, mFarBallGpsY);
+                mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(FAR_BALL_GPS_X + ",  " + mFarBallGpsY);
                 seekTargetAt(FAR_BALL_GPS_X, mFarBallGpsY);
                 break;
             case FAR_BALL_IMAGE_REC:
                 if (getStateTimeMs() > 5000) {
+                    sendWheelSpeed(0, 0);
                     setState(State.FAR_BALL_SCRIPT);
                 } else if (!mConeFound) {
                     sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
@@ -332,27 +349,8 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 //Done in set state
                 break;
             case DRIVE_TOWARD_HOME:
-                if (getDistanceToGoal(0, 0) <=20) {
-                    if (getStateTimeMs() > 5000) {
-                        setState(State.WAITING_FOR_PICKUP);
-                    }
-                    else if (!mConeFound) {
-                        sendWheelSpeed(DEFAULT_SPEED/2, -DEFAULT_SPEED/2);
-                    } else {
-                        if (mConeSize > 0.07) {
-                            sendWheelSpeed(0, 0);
-                            setState(State.WAITING_FOR_PICKUP);
-                        }
-                        else if (mConeTopBottomLocation > 0.75) {
-                            sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/4);
-                        }
-                        else if (mConeTopBottomLocation < 0.25) {
-                            sendWheelSpeed(DEFAULT_SPEED/4, DEFAULT_SPEED/2);
-                        }
-                        else {
-                            sendWheelSpeed(DEFAULT_SPEED/2, DEFAULT_SPEED/2);
-                        }
-                    }
+                if (getDistanceToGoal(0, 0) <= 20) {
+                    setState(State.WAITING_FOR_PICKUP);
                 }
                 seekTargetAt(0, 0);
                 break;
@@ -364,10 +362,10 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             case SEEKING_HOME:
                 if (getStateTimeMs() > 5000) {
                     setState(State.WAITING_FOR_PICKUP);
-                } else if (getDistanceToGoal(0, 0) >= 20) {
+                } else if (getDistanceToGoal(0, 0) >= 10) {
 
                     mFirebaseRef.child("MOVING VALUES").child("distance").setValue(getDistanceToGoal(0, 0));
-                    mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(0, 0);
+                    mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(0 + ",  " + 0);
                     seekTargetAt(0, 0);
                 } else if (!mConeFound) {
                     sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
@@ -386,8 +384,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 break;
         }
         //Code just for setting background colors
-        if (mConeFound)
-        {
+        if (mConeFound) {
             if (mConeLeftRightLocation < 0) {
             }
             if (mConeSize > 0.1) {
@@ -404,8 +401,19 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     }
 
     private void seekTargetAt(double x, double y) {
-        double leftTurnAmount = Math.round(NavUtils.getLeftTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
-        double rightTurnAmount = Math.round(NavUtils.getRightTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
+
+        double leftTurnAmount;
+        double rightTurnAmount;
+        if (mCurrentGpsHeading != NO_HEADING){
+            leftTurnAmount = Math.round(NavUtils.getLeftTurnHeadingDelta(mCurrentGpsHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
+            rightTurnAmount = Math.round(NavUtils.getRightTurnHeadingDelta(mCurrentGpsHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
+
+        }
+        else {
+            leftTurnAmount = Math.round(NavUtils.getLeftTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
+            rightTurnAmount = Math.round(NavUtils.getRightTurnHeadingDelta(mCurrentSensorHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
+
+        }
 
         double leftSpeed;
         double rightSpeed;
@@ -451,10 +459,10 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         String gpsInfo = getString(R.string.xy_format, mCurrentGpsX, mCurrentGpsY);
         if (mCurrentGpsHeading != NO_HEADING) {
             gpsInfo += " " + getString(R.string.degrees_format, mCurrentGpsHeading);
-            mBackgroundJumbo.setBackgroundColor(Color.GRAY);
+            mBackgroundJumbo.setBackgroundColor(Color.GREEN);
             mFirebaseRef.child("gps").child("heading").setValue((int) mCurrentGpsHeading);
         } else {
-            mBackgroundJumbo.setBackgroundColor(Color.GREEN);
+            mBackgroundJumbo.setBackgroundColor(Color.GRAY);
             mFirebaseRef.child("gps").child("heading").setValue("No Heading");
             gpsInfo += " ?°";
         }
@@ -593,11 +601,11 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
      * Test GPS point when going to the Far ball (assumes Blue Team heading to red ball).
      */
     public void handleFakeGpsF0(View view) {
-        onLocationChanged(165, 50, NO_HEADING, null); // Midfield
+        onLocationChanged(90, 50, NO_HEADING, null); // Midfield
     }
 
     public void handleFakeGpsF1(View view) {
-        onLocationChanged(209, 50, 0, null);  // Out of range so ignored.
+        onLocationChanged(240, 41, 0, null);  // Out of range so ignored.
     }
 
     public void handleFakeGpsF2(View view) {
@@ -646,15 +654,14 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             mGoOrMissionCompleteButton.setText("Mission Complete!");
             mGoOrMissionCompleteButtonJumbo.setBackgroundResource(R.drawable.red_button);
             mGoOrMissionCompleteButtonJumbo.setText("Stop!");
-//            sendWheelSpeed(DEFAULT_SPEED, DEFAULT_SPEED);
-//            mCommandHandler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    sendWheelSpeed(0, 0);
-//                    setState(State.DRIVE_TOWARDS_NEAR_BALL);
-//                }
-//            }, 4000);
-            setState(mState.NEAR_BALL_IMAGE_REC);
+            sendWheelSpeed(DEFAULT_SPEED, DEFAULT_SPEED);
+            mCommandHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sendWheelSpeed(0, 0);
+                    setState(State.DRIVE_TOWARDS_NEAR_BALL);
+                }
+            }, 4000);
         } else {
             setState(State.READY_FOR_MISSION);
         }
@@ -721,6 +728,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         super.onSensorChanged(fieldHeading, orientationValues);
         mSensorOrientationTextView.setText(getString(R.string.degrees_format,
                 mCurrentSensorHeading));
+        mCurrentSensorHeading = fieldHeading;
     }
 
     public void setState(State newState) {
@@ -741,6 +749,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mGoOrMissionCompleteButtonJumbo.setText("Go!");
                 mViewFlipper.setDisplayedChild(0);
                 sendWheelSpeed(0, 0);
+                sendCommand("ATTACH 111111");
                 break;
             case DRIVE_TOWARDS_NEAR_BALL:
                 mGpsInfoTextView.setText("---"); // Clear GPS display (optional)
@@ -749,22 +758,25 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 mViewFlipper.setDisplayedChild(2);
                 break;
             case NEAR_BALL_IMAGE_REC:
+                sendCommand("ATTACH 111111");
                 sendCommand("POSITION " + ARM_RESET);
                 break;
             case NEAR_BALL_SCRIPT:
-                sendCommand("ATTACH 111111");
+                mFirebaseRef.child("messages").setValue("removing near ball");
                 mScripts.removeBallAtLocation(mNearBallLocation);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         sendWheelSpeed(-DEFAULT_SPEED, -DEFAULT_SPEED);
+                        mFirebaseRef.child("messages").setValue("reversing");
                     }
-                }, 5000);
+                }, 6000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         sendWheelSpeed(0, 0);
                         setState(State.DRIVE_TOWARDS_FAR_BALL);
+                        mFirebaseRef.child("messages").setValue("driving to far ball");
                     }
                 }, 7000);
                 break;
@@ -776,22 +788,27 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 break;
             case FAR_BALL_SCRIPT:
                 mScripts.removeBallAtLocation(mFarBallLocation);
-                if (mWhiteBallLocation != 0) {
-                    mScripts.removeBallAtLocation(mWhiteBallLocation);
-                }
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mWhiteBallLocation != 0) {
+                            mScripts.removeBallAtLocation(mWhiteBallLocation);
+                        }
+                    }
+                }, 6000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         sendWheelSpeed(-DEFAULT_SPEED, -DEFAULT_SPEED);
                     }
-                }, 5000);
+                }, 12000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         sendWheelSpeed(0, 0);
                         setState(State.DRIVE_TOWARD_HOME);
                     }
-                }, 7000);
+                }, 13000);
                 break;
             case DRIVE_TOWARD_HOME:
                 sendCommand("POSITION " + ARM_RESET);
@@ -871,16 +888,10 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
         }
 
 
-        if (mOnRedTeam) {
-            Log.d(TAG, "I'm on the red team!");
-        } else {
-            Log.d(TAG, "I'm on the blue team!");
-        }
-
-
-        Log.d(TAG, "Near ball location: " + mNearBallLocation + " drop off at " + mNearBallGpsY);
-        Log.d(TAG, "Far ball location: " + mFarBallLocation + " drop off at " + mFarBallGpsY);
-        Log.d(TAG, "White  ball location: " + mWhiteBallLocation);
+        mFirebaseRef.child("BALL TEST VALUES").child("Near Ball").setValue("Near ball location: " + mNearBallLocation + " drop off at " + mNearBallGpsY);
+        mFirebaseRef.child("BALL TEST VALUES").child("Far Ball").setValue("Far ball location: " + mFarBallLocation + " drop off at " + mFarBallGpsY);
+        mFirebaseRef.child("BALL TEST VALUES").child("White Ball").setValue("White  ball location: " + mWhiteBallLocation);
+        mFirebaseRef.child("BALL TEST VALUES").child("Black Ball").setValue("Black ball location: " + mBlackBallLocation);
     }
 
 }

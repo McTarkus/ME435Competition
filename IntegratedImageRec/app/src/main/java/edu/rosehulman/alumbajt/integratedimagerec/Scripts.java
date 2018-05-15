@@ -85,92 +85,108 @@ public class Scripts {
 //    }
 
     protected void removeBallAtLocation(final int location) {
-        mActivity.sendCommand("ATTACH 111111"); // Just in case
+        mActivity.sendCommand("POSITION " + HOME);
         switch (location) {
             case 1:
                 mActivity.sendCommand("POSITION " + HOME);
+                mActivity.mFirebaseRef.child("messages").setValue("ome position");
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL1_OPEN);
+                        mActivity.mFirebaseRef.child("messages").setValue("ball 1 open position");
                     }
-                }, 1000);
+                }, 2000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL1_FLICK);
+                        mActivity.mFirebaseRef.child("messages").setValue("ball 1 flick position");
                     }
                 }, 2500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + HOME);
+                        mActivity.mFirebaseRef.child("messages").setValue("home position");
                     }
                 }, 3000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.setLocationToColor(location, GolfBallDeliveryActivity.BallColor.NONE);
+                        mActivity.mFirebaseRef.child("messages").setValue("clearing ball 1");
                     }
                 }, ARM_REMOVAL_TIME);
                 break;
             case 2:
                 mActivity.sendCommand("POSITION " + HOME);
+                mActivity.mFirebaseRef.child("messages").setValue("home position");
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL2_OPEN);
+                        mActivity.mFirebaseRef.child("messages").setValue("ball 2 open position");
                     }
                 }, 1000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL2_PRELAUNCH);
+                        mActivity.mFirebaseRef.child("messages").setValue("ball 2 prelaunch position");
+                    }
+                }, 1500);
+                mCommandHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mActivity.sendCommand("POSITION " + BALL2_OPEN);
+                        mActivity.mFirebaseRef.child("messages").setValue("ball 2 open position");
                     }
                 }, 2500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mActivity.sendCommand("POSITION " + BALL2_OPEN);
+                        mActivity.sendCommand("POSITION " + HOME);
+                        mActivity.mFirebaseRef.child("messages").setValue("home position");
                     }
                 }, 3500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mActivity.sendCommand("POSITION " + HOME);
-                    }
-                }, 4500);
-                mCommandHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
                         mActivity.setLocationToColor(location, GolfBallDeliveryActivity.BallColor.NONE);
+                        mActivity.mFirebaseRef.child("messages").setValue("clearing ball 2");
                     }
                 }, ARM_REMOVAL_TIME);
                 break;
             case 3:
                 mActivity.sendCommand("POSITION " + HOME);
+                mActivity.mFirebaseRef.child("messages").setValue("home position");
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL3_OPEN);
+                        mActivity.mFirebaseRef.child("messages").setValue("ball 3 open position");
                     }
-                }, 1000);
+                }, 2000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL3_FLICK);
+                        mActivity.mFirebaseRef.child("messages").setValue("ball 3 flick position");
                     }
                 }, 2500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + HOME);
+                        mActivity.mFirebaseRef.child("messages").setValue("home position");
                     }
                 }, 3000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.setLocationToColor(location, GolfBallDeliveryActivity.BallColor.NONE);
+                        mActivity.mFirebaseRef.child("messages").setValue("clearing ball 3");
                     }
                 }, ARM_REMOVAL_TIME);
                 break;

@@ -13,7 +13,7 @@ public class Scripts {
 
     private GolfBallDeliveryActivity mActivity;
 
-    private int ARM_REMOVAL_TIME = 5000;
+    protected int ARM_REMOVAL_TIME = 6000;
 
     public Scripts(GolfBallDeliveryActivity activity) {
         mActivity = activity;
@@ -96,21 +96,21 @@ public class Scripts {
                         mActivity.sendCommand("POSITION " + BALL1_OPEN);
                         mActivity.mFirebaseRef.child("messages").setValue("ball 1 open position");
                     }
-                }, 2000);
+                }, ARM_REMOVAL_TIME - 4000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL1_FLICK);
                         mActivity.mFirebaseRef.child("messages").setValue("ball 1 flick position");
                     }
-                }, 2500);
+                }, ARM_REMOVAL_TIME - 1500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + HOME);
                         mActivity.mFirebaseRef.child("messages").setValue("home position");
                     }
-                }, 3000);
+                }, ARM_REMOVAL_TIME-1000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -128,28 +128,28 @@ public class Scripts {
                         mActivity.sendCommand("POSITION " + BALL2_OPEN);
                         mActivity.mFirebaseRef.child("messages").setValue("ball 2 open position");
                     }
-                }, 1000);
+                }, ARM_REMOVAL_TIME - 4000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL2_PRELAUNCH);
                         mActivity.mFirebaseRef.child("messages").setValue("ball 2 prelaunch position");
                     }
-                }, 1500);
+                }, ARM_REMOVAL_TIME - 2500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL2_OPEN);
                         mActivity.mFirebaseRef.child("messages").setValue("ball 2 open position");
                     }
-                }, 2500);
+                }, ARM_REMOVAL_TIME - 1500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + HOME);
                         mActivity.mFirebaseRef.child("messages").setValue("home position");
                     }
-                }, 3500);
+                }, 5500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -167,21 +167,21 @@ public class Scripts {
                         mActivity.sendCommand("POSITION " + BALL3_OPEN);
                         mActivity.mFirebaseRef.child("messages").setValue("ball 3 open position");
                     }
-                }, 2000);
+                }, ARM_REMOVAL_TIME - 4000);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + BALL3_FLICK);
                         mActivity.mFirebaseRef.child("messages").setValue("ball 3 flick position");
                     }
-                }, 2500);
+                }, ARM_REMOVAL_TIME - 1500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mActivity.sendCommand("POSITION " + HOME);
                         mActivity.mFirebaseRef.child("messages").setValue("home position");
                     }
-                }, 3000);
+                }, ARM_REMOVAL_TIME - 500);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

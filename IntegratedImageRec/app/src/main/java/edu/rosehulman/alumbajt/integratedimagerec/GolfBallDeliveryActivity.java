@@ -41,6 +41,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     private int DEFAULT_SPEED = 255;
     private int mDrivingTimer = 0;
     private double mAverageHeading = 0;
+    private double AVERAGE_AMOUNT = 1;
 
     public enum State {
         READY_FOR_MISSION,
@@ -273,7 +274,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     sendWheelSpeed(0, 0);
                     setState(State.NEAR_BALL_SCRIPT);
                 }
-                if (getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY) <= 10) {
+                if (getDistanceToGoal(NEAR_BALL_GPS_X, mNearBallGpsY) <= 20) {
                     sendWheelSpeed(0, 0);
                     mCommandHandler.postDelayed(new Runnable() {
                         @Override
@@ -294,7 +295,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     sendWheelSpeed(0, 0);
                     setState(State.NEAR_BALL_SCRIPT);
                 } else if (!mConeFound) {
-                    sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
+                    sendWheelSpeed(DEFAULT_SPEED  , DEFAULT_SPEED/8 );
                 } else {
                     if (mConeSize > 0.07) {
                         sendWheelSpeed(0, 0);
@@ -312,12 +313,12 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 //Done in set State
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
-                if (getMatchTimeMs() > 180000) {
+                if (getMatchTimeMs() > 210000) {
 
                     sendWheelSpeed(0, 0);
                     setState(State.FAR_BALL_SCRIPT);
                 }
-                if (getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY) <= 10) {
+                if (getDistanceToGoal(FAR_BALL_GPS_X, mFarBallGpsY) <= 20) {
                     sendWheelSpeed(0, 0);
                     mCommandHandler.postDelayed(new Runnable() {
                         @Override
@@ -338,7 +339,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     sendWheelSpeed(0, 0);
                     setState(State.FAR_BALL_SCRIPT);
                 } else if (!mConeFound) {
-                    sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
+                    sendWheelSpeed(DEFAULT_SPEED  , DEFAULT_SPEED/8 );
                 } else {
                     if (mConeSize > 0.07) {
                         sendWheelSpeed(0, 0);
@@ -356,6 +357,9 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 //Done in set state
                 break;
             case DRIVE_TOWARD_HOME:
+                if (getMatchTimeMs() > 296000){
+                    setState(State.WAITING_FOR_PICKUP);
+                }
                 if (getDistanceToGoal(0, 0) <= 20) {
                     setState(State.WAITING_FOR_PICKUP);
                 }
@@ -365,21 +369,25 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                 seekTargetAt(0, 0);
                 break;
             case WAITING_FOR_PICKUP:
-                if (getStateTimeMs() > 8000) {
+                sendWheelSpeed(0, 0);
+                if (getMatchTimeMs() > 290000) {
+
+                }
+                else if (getStateTimeMs() > 8000) {
                     setState(State.SEEKING_HOME);
                 }
                 break;
             case SEEKING_HOME:
                 if (getStateTimeMs() > 5000) {
                     setState(State.WAITING_FOR_PICKUP);
-                } else if (getDistanceToGoal(0, 0) >= 10) {
+                } else if (getDistanceToGoal(0, 0) >= 20) {
 
                     mFirebaseRef.child("MOVING VALUES").child("distance").setValue(getDistanceToGoal(0, 0));
                     mFirebaseRef.child("MOVING VALUES").child("seeking target at: ").setValue(0 + ",  " + 0);
                     seekTargetAt(0, 0);
 
                 } else if (!mConeFound) {
-                    sendWheelSpeed(DEFAULT_SPEED / 2, -DEFAULT_SPEED / 2);
+                    sendWheelSpeed(DEFAULT_SPEED  , DEFAULT_SPEED/8 );
                 } else {
                     if (mConeSize > 0.07) {
                         sendWheelSpeed(0, 0);
@@ -399,12 +407,13 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
             if (mConeSize > 0.07) {
                 mBackgroundJumbo.setBackgroundColor(Color.parseColor("#ff8000"));
             } else {
-                if (mCurrentGpsHeading != NO_HEADING) {
-                    mBackgroundJumbo.setBackgroundColor(Color.GREEN);
-                } else {
-                    mBackgroundJumbo.setBackgroundColor(Color.GRAY);
-                }
+                mBackgroundJumbo.setBackgroundColor(Color.GRAY);
             }
+        }
+        else if (mCurrentGpsHeading != NO_HEADING) {
+            mBackgroundJumbo.setBackgroundColor(Color.GREEN);
+        } else {
+            mBackgroundJumbo.setBackgroundColor(Color.GRAY);
         }
     }
 
@@ -415,17 +424,18 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
     private void seekTargetAt(double x, double y) {
 
 
-        if (mDrivingTimer < 5) {
+        if (mDrivingTimer < AVERAGE_AMOUNT) {
             if (mCurrentGpsHeading != NO_HEADING) {
                 mAverageHeading += mCurrentGpsHeading;
             } else {
                 mAverageHeading += mCurrentSensorHeading;
             }
 
+            mDrivingTimer++;
         } else {
             double leftTurnAmount;
             double rightTurnAmount;
-            mAverageHeading = mAverageHeading / 5;
+            mAverageHeading = mAverageHeading / AVERAGE_AMOUNT;
             leftTurnAmount = Math.round(NavUtils.getLeftTurnHeadingDelta(mAverageHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
             rightTurnAmount = Math.round(NavUtils.getRightTurnHeadingDelta(mAverageHeading, NavUtils.getTargetHeading(mCurrentGpsX, mCurrentGpsY, x, y)));
 
@@ -436,7 +446,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     leftSpeed = DEFAULT_SPEED;
                     rightSpeed = DEFAULT_SPEED;
                 } else {
-                    leftSpeed = DEFAULT_SPEED * leftTurnAmount / 200;
+                    leftSpeed = DEFAULT_SPEED * (180 - leftTurnAmount) / 180;
                     rightSpeed = DEFAULT_SPEED;
                 }
             } else {
@@ -445,14 +455,13 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                     rightSpeed = DEFAULT_SPEED;
                 } else {
                     leftSpeed = DEFAULT_SPEED;
-                    rightSpeed = DEFAULT_SPEED * rightTurnAmount / 200;
+                    rightSpeed = DEFAULT_SPEED * (180 - rightTurnAmount) / 180;
                 }
             }
             mAverageHeading = 0;
             mDrivingTimer = 0;
             sendWheelSpeed((int) leftSpeed, (int) rightSpeed);
         }
-        mDrivingTimer++;
     }
 
     // --------------------------- Drive command ---------------------------
@@ -574,42 +583,44 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
      * Clicks to the red arrow image button that should show a dialog window.
      */
     public void handleDrivingStraight(View view) {
-        Toast.makeText(this, "handleDrivingStraight", Toast.LENGTH_SHORT).show();
-        AlertDialog.Builder builder = new AlertDialog.Builder(GolfBallDeliveryActivity.this);
-        builder.setTitle("Driving Straight Calibration");
-        View dialoglayout = getLayoutInflater().inflate(R.layout.driving_straight_dialog, (ViewGroup) getCurrentFocus());
-        builder.setView(dialoglayout);
-        final NumberPicker rightDutyCyclePicker = (NumberPicker) dialoglayout.findViewById(R.id.right_pwm_number_picker);
-        rightDutyCyclePicker.setMaxValue(255);
-        rightDutyCyclePicker.setMinValue(0);
-        rightDutyCyclePicker.setValue(mRightStraightPwmValue);
-        rightDutyCyclePicker.setWrapSelectorWheel(false);
-        final NumberPicker leftDutyCyclePicker = (NumberPicker) dialoglayout.findViewById(R.id.left_pwm_number_picker);
-        leftDutyCyclePicker.setMaxValue(255);
-        leftDutyCyclePicker.setMinValue(0);
-        leftDutyCyclePicker.setValue(mLeftStraightPwmValue);
-        leftDutyCyclePicker.setWrapSelectorWheel(false);
-        Button doneButton = (Button) dialoglayout.findViewById(R.id.done_button);
-        doneButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLeftStraightPwmValue = leftDutyCyclePicker.getValue();
-                mRightStraightPwmValue = rightDutyCyclePicker.getValue();
-                alert.dismiss();
-            }
-        });
-        final Button testStraightButton = (Button) dialoglayout.findViewById(R.id.test_straight_button);
-        testStraightButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLeftStraightPwmValue = leftDutyCyclePicker.getValue();
-                mRightStraightPwmValue = rightDutyCyclePicker.getValue();
-                Toast.makeText(GolfBallDeliveryActivity.this, "TODO: Implement the drive straight test", Toast.LENGTH_SHORT).show();
-                mScripts.testStraightScript();
-            }
-        });
-        alert = builder.create();
-        alert.show();
+            sendCommand("ATTACH 111111");
+            sendCommand("POSITION " + mScripts.HOME);
+//        Toast.makeText(this, "handleDrivingStraight", Toast.LENGTH_SHORT).show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(GolfBallDeliveryActivity.this);
+//        builder.setTitle("Driving Straight Calibration");
+//        View dialoglayout = getLayoutInflater().inflate(R.layout.driving_straight_dialog, (ViewGroup) getCurrentFocus());
+//        builder.setView(dialoglayout);
+//        final NumberPicker rightDutyCyclePicker = (NumberPicker) dialoglayout.findViewById(R.id.right_pwm_number_picker);
+//        rightDutyCyclePicker.setMaxValue(255);
+//        rightDutyCyclePicker.setMinValue(0);
+//        rightDutyCyclePicker.setValue(mRightStraightPwmValue);
+//        rightDutyCyclePicker.setWrapSelectorWheel(false);
+//        final NumberPicker leftDutyCyclePicker = (NumberPicker) dialoglayout.findViewById(R.id.left_pwm_number_picker);
+//        leftDutyCyclePicker.setMaxValue(255);
+//        leftDutyCyclePicker.setMinValue(0);
+//        leftDutyCyclePicker.setValue(mLeftStraightPwmValue);
+//        leftDutyCyclePicker.setWrapSelectorWheel(false);
+//        Button doneButton = (Button) dialoglayout.findViewById(R.id.done_button);
+//        doneButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mLeftStraightPwmValue = leftDutyCyclePicker.getValue();
+//                mRightStraightPwmValue = rightDutyCyclePicker.getValue();
+//                alert.dismiss();
+//            }
+//        });
+//        final Button testStraightButton = (Button) dialoglayout.findViewById(R.id.test_straight_button);
+//        testStraightButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mLeftStraightPwmValue = leftDutyCyclePicker.getValue();
+//                mRightStraightPwmValue = rightDutyCyclePicker.getValue();
+//                Toast.makeText(GolfBallDeliveryActivity.this, "TODO: Implement the drive straight test", Toast.LENGTH_SHORT).show();
+//                mScripts.testStraightScript();
+//            }
+//        });
+//        alert = builder.create();
+//        alert.show();
     }
 
     /**
@@ -786,7 +797,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                         sendWheelSpeed(-DEFAULT_SPEED, -DEFAULT_SPEED);
                         mFirebaseRef.child("messages").setValue("reversing");
                     }
-                }, 6000);
+                }, mScripts.ARM_REMOVAL_TIME);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -794,7 +805,7 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                         setState(State.DRIVE_TOWARDS_FAR_BALL);
                         mFirebaseRef.child("messages").setValue("driving to far ball");
                     }
-                }, 7000);
+                }, mScripts.ARM_REMOVAL_TIME + 1000);
                 break;
             case DRIVE_TOWARDS_FAR_BALL:
                 // All actions handled in the loop function.
@@ -811,20 +822,20 @@ public class GolfBallDeliveryActivity extends ImageRecActivity {
                             mScripts.removeBallAtLocation(mWhiteBallLocation);
                         }
                     }
-                }, 6000);
+                }, mScripts.ARM_REMOVAL_TIME);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         sendWheelSpeed(-DEFAULT_SPEED, -DEFAULT_SPEED);
                     }
-                }, 12000);
+                }, mScripts.ARM_REMOVAL_TIME*2);
                 mCommandHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         sendWheelSpeed(0, 0);
                         setState(State.DRIVE_TOWARD_HOME);
                     }
-                }, 13000);
+                }, mScripts.ARM_REMOVAL_TIME*2 + 1000);
                 break;
             case DRIVE_TOWARD_HOME:
                 sendCommand("POSITION " + ARM_RESET);
